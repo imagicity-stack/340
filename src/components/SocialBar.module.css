@@ -1,0 +1,33 @@
+.bar {
+  position: fixed;
+  top: 35%;
+  right: 1rem;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.link {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: var(--ocean-blue);
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  transition: transform 150ms ease;
+}
+
+.link:hover {
+  transform: translateY(-3px);
+  background: var(--primary-teal);
+}
+
+@media (max-width: 768px) {
+  .bar {
+    display: none;
+  }
+}

@@ -1,0 +1,18 @@
+.hero {
+  background: linear-gradient(120deg, rgba(28, 181, 178, 0.1), rgba(11, 79, 108, 0.08));
+  padding: 3rem 0;
+}
+
+.imageGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.imageGrid img {
+  border-radius: 12px;
+  height: 220px;
+  object-fit: cover;
+  width: 100%;
+}
