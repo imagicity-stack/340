@@ -138,6 +138,14 @@
   flex-wrap: wrap;
 }
 
+.sectionHeadInline {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
 .pill {
   background: rgba(78, 205, 196, 0.16);
   color: #a8ffee;
@@ -152,6 +160,12 @@
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1rem;
   margin-top: 1rem;
+}
+
+.rentalGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .card {
@@ -196,6 +210,54 @@
 
 .fullRow {
   grid-column: 1 / -1;
+}
+
+.subdivisionGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.subdivisionCard {
+  text-align: left;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #f4fbff;
+  padding: 0.8rem;
+  border-radius: 12px;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+.subdivisionCard:hover {
+  border-color: rgba(78, 205, 196, 0.6);
+  transform: translateY(-1px);
+}
+
+.subdivisionActive {
+  border-color: #4ecdc4;
+  box-shadow: 0 12px 24px rgba(78, 205, 196, 0.22);
+}
+
+.subdivisionTitle {
+  margin: 0 0 0.25rem 0;
+  font-weight: 700;
+}
+
+.detailToggles {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.75rem;
+}
+
+.amenitiesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.5rem 1rem;
+  margin-top: 0.5rem;
 }
 
 .checkboxRow {

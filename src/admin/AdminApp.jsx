@@ -18,6 +18,102 @@ const tabs = [
   'property-approval',
 ];
 
+const amenityOptions = [
+  { key: 'pool', label: 'Pool' },
+  { key: 'wifi', label: 'WiFi' },
+  { key: 'airConditioning', label: 'Air Conditioning' },
+  { key: 'fullKitchen', label: 'Full Kitchen' },
+  { key: 'parking', label: 'Parking' },
+  { key: 'balconyPatio', label: 'Balcony/Patio' },
+  { key: 'tv', label: 'TV' },
+  { key: 'washer', label: 'Washer' },
+  { key: 'dryer', label: 'Dryer' },
+  { key: 'oceanView', label: 'Ocean View' },
+  { key: 'fireplace', label: 'Fireplace' },
+  { key: 'gymFitness', label: 'Gym/Fitness' },
+  { key: 'elevator', label: 'Elevator' },
+  { key: 'hotTub', label: 'Hot Tub' },
+  { key: 'wheelchairAccessible', label: 'Wheelchair Accessible' },
+  { key: 'securitySystem', label: 'Security System' },
+];
+
+const subdivisions = [
+  {
+    title: 'ADRIAN, BEVERHOUDSTEIN and BELLEVUE',
+    description: 'Somewhat flat land five minutes drive to town, predominantly valley views referred to as the “country”',
+  },
+  { title: 'ANNABERG', description: 'North Shore land near Francis and Maho bays' },
+  { title: 'BETHANY', description: 'High above Cruz Bay and Great Cruz Bay with views from South to West' },
+  { title: 'BORDEAUX HEIGHTS', description: 'On top of Bordeaux Mountain with views East to West' },
+  {
+    title: 'CALABASH BOOM',
+    description: 'In Coral Bay past Shipwreck Restaurant with views East to the British Virgin Islands',
+  },
+  {
+    title: 'CAROLINA',
+    description: 'One thousand acres+ including Bordeaux mountain and sweeping around the whole Coral Bay to the North and East',
+  },
+  { title: 'CATHERINEBERG', description: 'Above Trunk Bay with views from North to East. Access from either Rt 10 or Rt 20' },
+  { title: 'CHOCOLATE HOLE', description: 'Established area on South side, close to Cruz Bay with views of South and West' },
+];
+
+const slugify = (value) =>
+  value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 80);
+
+const defaultAmenitiesState = amenityOptions.reduce((acc, option) => ({ ...acc, [option.key]: false }), {});
+
+const getInitialRentalForm = () => ({
+  propertyName: '',
+  propertyType: 'Villa',
+  slug: '',
+  status: 'Available',
+  description: '',
+  address: '',
+  neighborhood: '',
+  zip: '',
+  bedrooms: '',
+  bathrooms: '',
+  maxOccupancy: '',
+  minStay: '',
+  squareFeet: '',
+  yearBuilt: '',
+  lotSize: '',
+  furnished: false,
+  petFriendly: false,
+  smokingAllowed: false,
+  nightlyRate: '',
+  weeklyRate: '',
+  monthlyRate: '',
+  cleaningFee: '',
+  securityDeposit: '',
+  cancellationPolicy: 'Moderate - Full refund 5 days prior',
+  houseRules: '',
+  mainImage: '',
+  gallery1: '',
+  gallery2: '',
+  gallery3: '',
+  gallery4: '',
+  managerName: '',
+  managerPhone: '',
+  emergencyContact: '',
+  keyPickupLocation: '',
+  keyPickupInstructions: '',
+  amenities: { ...defaultAmenitiesState },
+  subdivision: '',
+});
+
+const formatCurrency = (value) => {
+  if (!value) return '';
+  const numericValue = Number(value);
+  if (Number.isNaN(numericValue)) return value;
+  return `$${numericValue.toLocaleString()}`;
+};
+
 const AdminApp = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('portfolio');
@@ -49,15 +145,7 @@ const AdminApp = () => {
 
   const [agentForm, setAgentForm] = useState({ name: '', role: '', email: '', phone: '' });
 
-  const [rentalForm, setRentalForm] = useState({
-    name: '',
-    weekly: '',
-    guests: '',
-    beds: '',
-    baths: '',
-    amenities: '',
-    image: '',
-  });
+  const [rentalForm, setRentalForm] = useState(getInitialRentalForm());
 
   const [bookingRequests, setBookingRequests] = useState([
     { id: 1, guest: 'Avery P.', property: 'Maho Bay Escape', dates: 'Jun 12 - Jun 18', status: 'Pending' },
@@ -138,21 +226,59 @@ const AdminApp = () => {
   };
 
   const addRental = () => {
-    if (!rentalForm.name || !rentalForm.weekly) return;
+    if (!rentalForm.propertyName || !rentalForm.nightlyRate) return;
+
+    const amenityLabels = amenityOptions.reduce((acc, option) => ({ ...acc, [option.key]: option.label }), {});
+
     const payload = {
-      ...rentalForm,
       id: Date.now(),
-      guests: Number(rentalForm.guests || 0),
-      beds: Number(rentalForm.beds || 0),
-      baths: Number(rentalForm.baths || 0),
-      amenities: rentalForm.amenities ? rentalForm.amenities.split(',').map((a) => a.trim()) : [],
+      name: rentalForm.propertyName,
+      type: rentalForm.propertyType,
+      slug: rentalForm.slug || slugify(rentalForm.propertyName),
+      status: rentalForm.status,
+      description: rentalForm.description,
+      address: rentalForm.address,
+      neighborhood: rentalForm.neighborhood,
+      subdivision: rentalForm.subdivision,
+      zip: rentalForm.zip,
+      guests: Number(rentalForm.maxOccupancy || rentalForm.guests || 0),
+      beds: Number(rentalForm.bedrooms || 0),
+      baths: Number(rentalForm.bathrooms || 0),
+      maxOccupancy: Number(rentalForm.maxOccupancy || 0),
+      minStay: Number(rentalForm.minStay || 0),
+      squareFeet: Number(rentalForm.squareFeet || 0),
+      yearBuilt: rentalForm.yearBuilt,
+      lotSize: rentalForm.lotSize,
+      furnished: rentalForm.furnished,
+      petFriendly: rentalForm.petFriendly,
+      smokingAllowed: rentalForm.smokingAllowed,
+      nightly: formatCurrency(rentalForm.nightlyRate),
+      weekly:
+        formatCurrency(rentalForm.weeklyRate) ||
+        (rentalForm.nightlyRate ? `$${(Number(rentalForm.nightlyRate) * 7).toLocaleString()}` : ''),
+      monthly: formatCurrency(rentalForm.monthlyRate),
+      cleaningFee: formatCurrency(rentalForm.cleaningFee),
+      securityDeposit: formatCurrency(rentalForm.securityDeposit),
+      cancellationPolicy: rentalForm.cancellationPolicy,
+      houseRules: rentalForm.houseRules,
+      amenities: Object.entries(rentalForm.amenities)
+        .filter(([, value]) => value)
+        .map(([key]) => amenityLabels[key]),
       image:
-        rentalForm.image ||
+        rentalForm.mainImage ||
         'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?auto=format&fit=crop&w=1200&q=80',
+      gallery: [rentalForm.gallery1, rentalForm.gallery2, rentalForm.gallery3, rentalForm.gallery4].filter(Boolean),
+      contact: {
+        managerName: rentalForm.managerName,
+        managerPhone: rentalForm.managerPhone,
+        emergencyContact: rentalForm.emergencyContact,
+        keyPickupLocation: rentalForm.keyPickupLocation,
+        keyPickupInstructions: rentalForm.keyPickupInstructions,
+      },
     };
 
     setRentals((items) => [...items, payload]);
-    setRentalForm({ name: '', weekly: '', guests: '', beds: '', baths: '', amenities: '', image: '' });
+    setRentalForm(getInitialRentalForm());
     setMiniNotice('Rental property added to front-end inventory.');
     setActiveTab('rentals');
   };
@@ -468,77 +594,440 @@ const AdminApp = () => {
               </div>
               <span className={styles.pill}>Hospitality</span>
             </div>
-            <div className={styles.gridTwo}>
+            <div className={styles.rentalGrid}>
               <div className={styles.card}>
+                <div className={styles.sectionHeadInline}>
+                  <div>
+                    <p className={styles.kicker}>Basic Information</p>
+                    <h3>Add rental property</h3>
+                    <p className={styles.muted}>Capture everything the team needs to publish the listing instantly.</p>
+                  </div>
+                  <span className={styles.pill}>Required fields marked *</span>
+                </div>
+
                 <div className={styles.formGrid}>
-                  <label>
-                    Rental name
-                    <input value={rentalForm.name} onChange={(e) => setRentalForm((f) => ({ ...f, name: e.target.value }))} />
-                  </label>
-                  <label>
-                    Weekly rate
-                    <input value={rentalForm.weekly} onChange={(e) => setRentalForm((f) => ({ ...f, weekly: e.target.value }))} />
-                  </label>
-                  <label>
-                    Guests
-                    <input value={rentalForm.guests} onChange={(e) => setRentalForm((f) => ({ ...f, guests: e.target.value }))} />
-                  </label>
-                  <label>
-                    Beds
-                    <input value={rentalForm.beds} onChange={(e) => setRentalForm((f) => ({ ...f, beds: e.target.value }))} />
-                  </label>
-                  <label>
-                    Baths
-                    <input value={rentalForm.baths} onChange={(e) => setRentalForm((f) => ({ ...f, baths: e.target.value }))} />
-                  </label>
-                  <label>
-                    Amenities
+                  <label className={styles.fullRow}>
+                    Property Name *
                     <input
-                      placeholder="Pool, concierge, chef"
-                      value={rentalForm.amenities}
-                      onChange={(e) => setRentalForm((f) => ({ ...f, amenities: e.target.value }))}
+                      placeholder="e.g., Sunset Villa Paradise"
+                      value={rentalForm.propertyName}
+                      onChange={(e) =>
+                        setRentalForm((f) => {
+                          const nextName = e.target.value;
+                          const derivedSlug = slugify(nextName);
+                          const shouldUpdateSlug = !f.slug || f.slug === slugify(f.propertyName);
+
+                          return {
+                            ...f,
+                            propertyName: nextName,
+                            slug: shouldUpdateSlug ? derivedSlug : f.slug,
+                          };
+                        })
+                      }
                     />
                   </label>
                   <label>
-                    Image URL
-                    <input value={rentalForm.image} onChange={(e) => setRentalForm((f) => ({ ...f, image: e.target.value }))} />
+                    Property Type
+                    <select
+                      value={rentalForm.propertyType}
+                      onChange={(e) => setRentalForm((f) => ({ ...f, propertyType: e.target.value }))}
+                    >
+                      <option>Villa</option>
+                      <option>Condo</option>
+                      <option>Townhome</option>
+                      <option>Estate</option>
+                      <option>Guest House</option>
+                      <option>Waterfront</option>
+                    </select>
+                  </label>
+                  <label>
+                    URL Slug
+                    <input
+                      placeholder="sunset-villa-paradise"
+                      value={rentalForm.slug}
+                      onChange={(e) => setRentalForm((f) => ({ ...f, slug: slugify(e.target.value) }))}
+                    />
+                  </label>
+                  <label>
+                    Status
+                    <select value={rentalForm.status} onChange={(e) => setRentalForm((f) => ({ ...f, status: e.target.value }))}>
+                      <option>Available</option>
+                      <option>Blocked</option>
+                      <option>Temporarily Unavailable</option>
+                    </select>
+                  </label>
+                  <label className={styles.fullRow}>
+                    Description
+                    <textarea
+                      placeholder="Describe your property, its unique features, and what makes it special..."
+                      value={rentalForm.description}
+                      onChange={(e) => setRentalForm((f) => ({ ...f, description: e.target.value }))}
+                    />
                   </label>
                 </div>
-                <div className={styles.actions}>
-                  <button className="button" onClick={addRental}>
-                    Add rental property
-                  </button>
+              </div>
+
+              <div className={styles.gridTwo}>
+                <div className={styles.card}>
+                  <p className={styles.kicker}>Location</p>
+                  <h3>Address</h3>
+                  <div className={styles.formGrid}>
+                    <label className={styles.fullRow}>
+                      Address
+                      <input
+                        placeholder="123 Paradise Road"
+                        value={rentalForm.address}
+                        onChange={(e) => setRentalForm((f) => ({ ...f, address: e.target.value }))}
+                      />
+                    </label>
+                    <label>
+                      Neighborhood
+                      <input
+                        placeholder="e.g., Cruz Bay, Coral Bay"
+                        value={rentalForm.neighborhood}
+                        onChange={(e) => setRentalForm((f) => ({ ...f, neighborhood: e.target.value }))}
+                      />
+                    </label>
+                    <label>
+                      ZIP Code
+                      <input
+                        placeholder="00830"
+                        value={rentalForm.zip}
+                        onChange={(e) => setRentalForm((f) => ({ ...f, zip: e.target.value }))}
+                      />
+                    </label>
+                  </div>
+
+                  <div className={styles.subdivisionGrid}>
+                    {subdivisions.map((area) => (
+                      <button
+                        key={area.title}
+                        type="button"
+                        className={`${styles.subdivisionCard} ${
+                          rentalForm.subdivision === area.title ? styles.subdivisionActive : ''
+                        }`}
+                        onClick={() =>
+                          setRentalForm((f) => ({
+                            ...f,
+                            subdivision: area.title,
+                            neighborhood: f.neighborhood || area.title.split(',')[0],
+                          }))
+                        }
+                      >
+                        <p className={styles.subdivisionTitle}>{area.title}</p>
+                        <p className={styles.muted}>{area.description}</p>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className={styles.card}>
+                  <p className={styles.kicker}>Property Details</p>
+                  <h3>Guest-ready specifics</h3>
+                  <div className={styles.formGrid}>
+                    <label>
+                      Bedrooms
+                      <input
+                        placeholder="3"
+                        value={rentalForm.bedrooms}
+                        onChange={(e) => setRentalForm((f) => ({ ...f, bedrooms: e.target.value }))}
+                      />
+                    </label>
+                    <label>
+                      Bathrooms
+                      <input
+                        placeholder="2"
+                        value={rentalForm.bathrooms}
+                        onChange={(e) => setRentalForm((f) => ({ ...f, bathrooms: e.target.value }))}
+                      />
+                    </label>
+                    <label>
+                      Max Occupancy
+                      <input
+                        placeholder="6"
+                        value={rentalForm.maxOccupancy}
+                        onChange={(e) => setRentalForm((f) => ({ ...f, maxOccupancy: e.target.value }))}
+                      />
+                    </label>
+                    <label>
+                      Min Stay (nights)
+                      <input
+                        placeholder="3"
+                        value={rentalForm.minStay}
+                        onChange={(e) => setRentalForm((f) => ({ ...f, minStay: e.target.value }))}
+                      />
+                    </label>
+                    <label>
+                      Square Feet
+                      <input
+                        placeholder="2500"
+                        value={rentalForm.squareFeet}
+                        onChange={(e) => setRentalForm((f) => ({ ...f, squareFeet: e.target.value }))}
+                      />
+                    </label>
+                    <label>
+                      Year Built
+                      <input
+                        placeholder="2020"
+                        value={rentalForm.yearBuilt}
+                        onChange={(e) => setRentalForm((f) => ({ ...f, yearBuilt: e.target.value }))}
+                      />
+                    </label>
+                    <label>
+                      Lot Size (sqft)
+                      <input
+                        placeholder="5000"
+                        value={rentalForm.lotSize}
+                        onChange={(e) => setRentalForm((f) => ({ ...f, lotSize: e.target.value }))}
+                      />
+                    </label>
+                  </div>
+                  <div className={styles.detailToggles}>
+                    <label className={styles.checkboxRow}>
+                      <input
+                        type="checkbox"
+                        checked={rentalForm.furnished}
+                        onChange={(e) => setRentalForm((f) => ({ ...f, furnished: e.target.checked }))}
+                      />
+                      Furnished
+                    </label>
+                    <label className={styles.checkboxRow}>
+                      <input
+                        type="checkbox"
+                        checked={rentalForm.petFriendly}
+                        onChange={(e) => setRentalForm((f) => ({ ...f, petFriendly: e.target.checked }))}
+                      />
+                      Pet Friendly
+                    </label>
+                    <label className={styles.checkboxRow}>
+                      <input
+                        type="checkbox"
+                        checked={rentalForm.smokingAllowed}
+                        onChange={(e) => setRentalForm((f) => ({ ...f, smokingAllowed: e.target.checked }))}
+                      />
+                      Smoking Allowed
+                    </label>
+                  </div>
                 </div>
               </div>
-              <div className={styles.card}>
-                <h3>Rental lineup</h3>
-                <div className={styles.itemList}>
-                  {rentals.map((rental) => (
-                    <div key={rental.id} className={styles.listRow}>
-                      <div>
-                        <p className={styles.itemTitle}>{rental.name}</p>
-                        <p className={styles.muted}>{rental.weekly} • Sleeps {rental.guests}</p>
-                      </div>
-                      <div className={styles.rowActions}>
-                        <button
-                          className="button secondary"
-                          onClick={() =>
-                            setRentals((list) =>
-                              list.map((entry) =>
-                                entry.id === rental.id ? { ...entry, weekly: `${entry.weekly} • updated` } : entry
-                              )
-                            )
+
+              <div className={styles.gridTwo}>
+                <div className={styles.card}>
+                  <p className={styles.kicker}>Amenities</p>
+                  <h3>Guest expectations</h3>
+                  <div className={styles.amenitiesGrid}>
+                    {amenityOptions.map((amenity) => (
+                      <label key={amenity.key} className={styles.checkboxRow}>
+                        <input
+                          type="checkbox"
+                          checked={rentalForm.amenities[amenity.key]}
+                          onChange={(e) =>
+                            setRentalForm((f) => ({
+                              ...f,
+                              amenities: { ...f.amenities, [amenity.key]: e.target.checked },
+                            }))
                           }
-                        >
-                          Bump rate
-                        </button>
-                        <button className="button" onClick={() => setRentals((list) => list.filter((r) => r.id !== rental.id))}>
-                          Delete
-                        </button>
-                      </div>
-                    </div>
-                  ))}
+                        />
+                        {amenity.label}
+                      </label>
+                    ))}
+                  </div>
                 </div>
+
+                <div className={styles.card}>
+                  <p className={styles.kicker}>Pricing</p>
+                  <h3>Nightly & beyond</h3>
+                  <div className={styles.formGrid}>
+                    <label>
+                      Nightly Rate (USD) *
+                      <input
+                        placeholder="150.00"
+                        value={rentalForm.nightlyRate}
+                        onChange={(e) => setRentalForm((f) => ({ ...f, nightlyRate: e.target.value }))}
+                      />
+                    </label>
+                    <label>
+                      Weekly Rate (USD)
+                      <input
+                        placeholder="900.00"
+                        value={rentalForm.weeklyRate}
+                        onChange={(e) => setRentalForm((f) => ({ ...f, weeklyRate: e.target.value }))}
+                      />
+                    </label>
+                    <label>
+                      Monthly Rate (USD)
+                      <input
+                        placeholder="3500.00"
+                        value={rentalForm.monthlyRate}
+                        onChange={(e) => setRentalForm((f) => ({ ...f, monthlyRate: e.target.value }))}
+                      />
+                    </label>
+                    <label>
+                      Cleaning Fee (USD)
+                      <input
+                        placeholder="75.00"
+                        value={rentalForm.cleaningFee}
+                        onChange={(e) => setRentalForm((f) => ({ ...f, cleaningFee: e.target.value }))}
+                      />
+                    </label>
+                    <label>
+                      Security Deposit (USD)
+                      <input
+                        placeholder="500.00"
+                        value={rentalForm.securityDeposit}
+                        onChange={(e) => setRentalForm((f) => ({ ...f, securityDeposit: e.target.value }))}
+                      />
+                    </label>
+                  </div>
+                  <div className={styles.formGrid}>
+                    <label>
+                      Cancellation Policy
+                      <select
+                        value={rentalForm.cancellationPolicy}
+                        onChange={(e) => setRentalForm((f) => ({ ...f, cancellationPolicy: e.target.value }))}
+                      >
+                        <option>Moderate - Full refund 5 days prior</option>
+                        <option>Flexible - Full refund 1 day prior</option>
+                        <option>Strict - 50% refund up to 7 days prior</option>
+                        <option>Non-refundable</option>
+                      </select>
+                    </label>
+                    <label className={styles.fullRow}>
+                      House Rules & Policies
+                      <textarea
+                        placeholder="No smoking, no parties, quiet hours after 10 PM..."
+                        value={rentalForm.houseRules}
+                        onChange={(e) => setRentalForm((f) => ({ ...f, houseRules: e.target.value }))}
+                      />
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div className={styles.gridTwo}>
+                <div className={styles.card}>
+                  <p className={styles.kicker}>Images</p>
+                  <h3>Hero & gallery</h3>
+                  <div className={styles.formGrid}>
+                    <label className={styles.fullRow}>
+                      Main Image URL *
+                      <input
+                        placeholder="https://example.com/main-image.jpg"
+                        value={rentalForm.mainImage}
+                        onChange={(e) => setRentalForm((f) => ({ ...f, mainImage: e.target.value }))}
+                      />
+                    </label>
+                    <label>
+                      Gallery image 1 URL
+                      <input
+                        placeholder="https://example.com/gallery-1.jpg"
+                        value={rentalForm.gallery1}
+                        onChange={(e) => setRentalForm((f) => ({ ...f, gallery1: e.target.value }))}
+                      />
+                    </label>
+                    <label>
+                      Gallery image 2 URL
+                      <input
+                        placeholder="https://example.com/gallery-2.jpg"
+                        value={rentalForm.gallery2}
+                        onChange={(e) => setRentalForm((f) => ({ ...f, gallery2: e.target.value }))}
+                      />
+                    </label>
+                    <label>
+                      Gallery image 3 URL
+                      <input
+                        placeholder="https://example.com/gallery-3.jpg"
+                        value={rentalForm.gallery3}
+                        onChange={(e) => setRentalForm((f) => ({ ...f, gallery3: e.target.value }))}
+                      />
+                    </label>
+                    <label>
+                      Gallery image 4 URL
+                      <input
+                        placeholder="https://example.com/gallery-4.jpg"
+                        value={rentalForm.gallery4}
+                        onChange={(e) => setRentalForm((f) => ({ ...f, gallery4: e.target.value }))}
+                      />
+                    </label>
+                  </div>
+                </div>
+
+                <div className={styles.card}>
+                  <p className={styles.kicker}>Contact & Management</p>
+                  <h3>Check-in readiness</h3>
+                  <div className={styles.formGrid}>
+                    <label>
+                      Manager Name
+                      <input
+                        placeholder="Imagicity"
+                        value={rentalForm.managerName}
+                        onChange={(e) => setRentalForm((f) => ({ ...f, managerName: e.target.value }))}
+                      />
+                    </label>
+                    <label>
+                      Manager Phone
+                      <input
+                        placeholder="+1 (340) 123-4567"
+                        value={rentalForm.managerPhone}
+                        onChange={(e) => setRentalForm((f) => ({ ...f, managerPhone: e.target.value }))}
+                      />
+                    </label>
+                    <label>
+                      Emergency Contact
+                      <input
+                        placeholder="+1 (340) 987-6543"
+                        value={rentalForm.emergencyContact}
+                        onChange={(e) => setRentalForm((f) => ({ ...f, emergencyContact: e.target.value }))}
+                      />
+                    </label>
+                    <label>
+                      Key Pickup Location
+                      <input
+                        placeholder="Property office, lockbox, etc."
+                        value={rentalForm.keyPickupLocation}
+                        onChange={(e) => setRentalForm((f) => ({ ...f, keyPickupLocation: e.target.value }))}
+                      />
+                    </label>
+                    <label className={styles.fullRow}>
+                      Key Pickup Instructions
+                      <textarea
+                        placeholder="Instructions for guests on how to check in and get keys..."
+                        value={rentalForm.keyPickupInstructions}
+                        onChange={(e) => setRentalForm((f) => ({ ...f, keyPickupInstructions: e.target.value }))}
+                      />
+                    </label>
+                  </div>
+                  <div className={styles.actions}>
+                    <button className="button secondary" onClick={() => setRentalForm(getInitialRentalForm())}>
+                      Reset form
+                    </button>
+                    <button className="button" onClick={addRental}>
+                      Submit Rental Property
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.card}>
+              <h3>Rental lineup</h3>
+              <div className={styles.itemList}>
+                {rentals.map((rental) => (
+                  <div key={rental.id} className={styles.listRow}>
+                    <div>
+                      <p className={styles.itemTitle}>{rental.name}</p>
+                      <p className={styles.muted}>
+                        {rental.weekly ? `${rental.weekly}/week` : rental.nightly ? `${rental.nightly}/night` : 'Rate on request'}
+                      </p>
+                      <p className={styles.muted}>
+                        Guests: {rental.guests} · Beds: {rental.beds} · Baths: {rental.baths}
+                      </p>
+                    </div>
+                    <button className="button secondary" onClick={() => setRentals((list) => list.filter((a) => a.id !== rental.id))}>
+                      Remove
+                    </button>
+                  </div>
+                ))}
               </div>
             </div>
           </section>
