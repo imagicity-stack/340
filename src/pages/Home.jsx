@@ -2,10 +2,88 @@ import React, { useMemo } from 'react';
 import styles from './Home.module.css';
 import { useSiteData } from '../state/SiteDataContext.jsx';
 
-const team = [
-  { name: 'Isla Thompson', role: 'Broker / Owner' },
-  { name: 'Kai Rodriguez', role: 'Luxury Specialist' },
-  { name: 'Mara Blake', role: 'Property Manager' },
+const teamMembers = [
+  {
+    name: 'Tammy Donnelly',
+    role: 'Broker / Owner / ABR',
+    bio: 'Tammy has lived on St. John since 1980 and became the owner of 340 Real Estate in 2013.',
+    phone: '+13405551230',
+    email: 'tammy@340realestate.com',
+    image:
+      'https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=300&q=80',
+  },
+  {
+    name: 'Jennifer Doran',
+    role: 'Sales Associate',
+    bio: 'Jennifer brings hospitality expertise and a knack for guiding first-time buyers.',
+    phone: '+13405551231',
+    email: 'jennifer@340realestate.com',
+    image:
+      'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=300&q=80',
+  },
+  {
+    name: 'Tina Peitto',
+    role: 'Sales Associate',
+    bio: 'Tina’s detail-oriented approach comes from her prior tenure as Director of Finance.',
+    phone: '+13405551232',
+    email: 'tina@340realestate.com',
+    image:
+      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=300&q=80',
+  },
+  {
+    name: 'Rosanne Ramos Lloyd',
+    role: 'Sales Associate',
+    bio: 'Rosanne has worked in marketing and sales with St. John Insurance Company.',
+    phone: '+13405551233',
+    email: 'rosanne@340realestate.com',
+    image:
+      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=300&q=80&sat=-50',
+  },
+  {
+    name: 'Jenn Manes',
+    role: 'Sales Associate',
+    bio: 'Jenn made her move to St. John after discovering the island and now blogs about local life.',
+    phone: '+13405551234',
+    email: 'jenn@340realestate.com',
+    image:
+      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=300&q=80&sat=-30',
+  },
+  {
+    name: 'Adonis Morton',
+    role: 'Sales Associate',
+    bio: 'Adonis arrived on St. John in 2017 and quickly became a trusted market expert.',
+    phone: '+13405551235',
+    email: 'adonis@340realestate.com',
+    image:
+      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=300&q=80&sat=20',
+  },
+  {
+    name: 'Mary Moroney',
+    role: 'Sales Associate',
+    bio: 'Mary balances her real estate career with a passion for community volunteering.',
+    phone: '+13405551236',
+    email: 'mary@340realestate.com',
+    image:
+      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=300&q=80&sat=-10',
+  },
+  {
+    name: 'John McCann',
+    role: 'Broker Associate',
+    bio: 'John moved to Hawaii, then back to St. John, and shares deep insights on island living.',
+    phone: '+13405551237',
+    email: 'john@340realestate.com',
+    image:
+      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=300&q=80&sat=-45',
+  },
+  {
+    name: 'Olivia Carter',
+    role: 'Client Care Specialist',
+    bio: 'Olivia coordinates showings, answers inquiries, and keeps buyers updated at every step.',
+    phone: '+13405551238',
+    email: 'olivia@340realestate.com',
+    image:
+      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=300&q=80&sat=30',
+  },
 ];
 
 const Home = () => {
@@ -22,7 +100,7 @@ const Home = () => {
           <p className={styles.heroEyebrow}>340 Real Estate St. John</p>
           <h1 className={styles.heroTitle}>Discover Your Paradise</h1>
           <p className={styles.heroSubtitle}>Luxury Real Estate in St. John, USVI</p>
-          <a className="button" href="/portfolio">
+          <a className={`button ${styles.heroCta}`} href="/portfolio">
             Search MLS Properties
           </a>
         </div>
@@ -57,21 +135,73 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="section">
-        <div className="container grid teamGrid">
-          <div>
-            <h2>Meet the Team</h2>
-            <p>Seasoned negotiators, island locals, and hospitality pros ready to guide you.</p>
+      <section className={`section ${styles.teamIntroSection}`}>
+        <div className="container">
+          <div className={styles.teamIntroCard}>
+            <h2>Meet the 340 Real Estate St. John Team</h2>
+            <p>
+              Our experienced team of brokers and sales agents is dedicated to helping you find the perfect
+              property—whether it's a cozy condo, sprawling land, luxurious home, or commercial space. We work with all
+              listings on the St. John MLS and offer Accredited Buyer Representative services to guide you every step of
+              the way.
+            </p>
+            <p>
+              Our website features a user-friendly, fully searchable database of all MLS listings, plus a robust archive
+              of over 5,000 real estate sales dating back to 2009. You can explore historical trends by area, property
+              type, or time frame—empowering you with the insights you need to make a smart investment.
+            </p>
+            <h3>Ready to Make the Move?</h3>
+            <p>
+              Whether you're planning a weeklong getaway or a permanent relocation, we're here to help. With over 70
+              years of combined experience in St. John real estate, the 340 Real Estate team is ready to turn your island
+              dream into reality.
+            </p>
+            <a className={`button ${styles.knowMoreButton}`} href="/340team">
+              Know More
+            </a>
           </div>
-          {team.map((person) => (
-            <div key={person.name} className={`card ${styles.teamCard}`}>
-              <h3>{person.name}</h3>
-              <p>{person.role}</p>
-              <button className="button secondary" aria-label={`Schedule a call with ${person.name}`}>
-                Schedule a call
-              </button>
+        </div>
+      </section>
+
+      <section className={`section ${styles.teamSection}`}>
+        <div className="container">
+          <div className={styles.teamHeader}>
+            <div>
+              <p className={styles.teamEyebrow}>Our People</p>
+              <h2>Meet the 340 Real Estate St. John Team</h2>
+              <p>
+                Seasoned brokers, sales associates, and client care specialists combining 70+ years of expertise to
+                make your move seamless.
+              </p>
             </div>
-          ))}
+          </div>
+          <div className={styles.teamGrid}>
+            {teamMembers.map((member) => (
+              <article key={member.name} className={styles.memberCard}>
+                <div className={styles.avatar} style={{ backgroundImage: `url(${member.image})` }} aria-hidden="true" />
+                <div className={styles.memberDetails}>
+                  <h3>{member.name}</h3>
+                  <p className={styles.memberRole}>{member.role}</p>
+                  <p className={styles.memberBio}>{member.bio}</p>
+                </div>
+                <div className={styles.contactRow}>
+                  <a href={`tel:${member.phone}`} aria-label={`Call ${member.name}`} className={styles.contactIcon}>
+                    <span aria-hidden="true">📞</span>
+                  </a>
+                  <a
+                    href={`mailto:${member.email}`}
+                    aria-label={`Email ${member.name}`}
+                    className={styles.contactIcon}
+                  >
+                    <span aria-hidden="true">✉️</span>
+                  </a>
+                  <a href="/contact" aria-label={`Message ${member.name}`} className={styles.contactIcon}>
+                    <span aria-hidden="true">💬</span>
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 

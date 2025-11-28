@@ -3,7 +3,8 @@
   background: url('https://images.unsplash.com/photo-1521550830594-2afed882baee?auto=format&fit=crop&w=1800&q=80')
       center/cover no-repeat;
   color: white;
-  padding: 8rem 0;
+  min-height: 100vh;
+  padding: clamp(4rem, 8vh, 7rem) 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -40,6 +41,17 @@
 .heroSubtitle {
   margin: 0 0 0.5rem;
   font-size: 1.2rem;
+}
+
+.heroCta {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 0.6rem 1.05rem;
+  backdrop-filter: blur(4px);
+}
+
+.heroCta:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .storySection {
@@ -81,14 +93,133 @@
   color: #0b4f6c;
 }
 
+.teamIntroSection {
+  background: #eef5f6;
+}
+
+.teamIntroCard {
+  background: white;
+  border-radius: 16px;
+  box-shadow: var(--card-shadow);
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  display: grid;
+  gap: 0.85rem;
+  line-height: 1.7;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.teamIntroCard h2 {
+  margin: 0 0 0.25rem;
+}
+
+.teamIntroCard h3 {
+  margin: 0.5rem 0 0.1rem;
+  color: #0b4f6c;
+}
+
+.knowMoreButton {
+  justify-self: start;
+  margin-top: 0.5rem;
+}
+
+.teamSection {
+  background: #f6fafb;
+}
+
+.teamHeader {
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.teamEyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  color: #0b4f6c;
+  margin: 0 0 0.35rem;
+  font-size: 0.9rem;
+}
+
 .teamGrid,
 .villaGrid,
 .galleryGrid {
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
 
-.teamCard {
-  text-align: center;
+.teamGrid {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.memberCard {
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 12px 32px rgba(0, 51, 102, 0.12);
+  padding: 1.25rem;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 0.75rem;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+  border: 1px solid rgba(11, 79, 108, 0.06);
+}
+
+.memberCard:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 18px 44px rgba(0, 51, 102, 0.18);
+}
+
+.avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+.memberDetails h3 {
+  margin: 0;
+  color: #0c1b2a;
+  font-size: 1.05rem;
+}
+
+.memberRole {
+  margin: 0.1rem 0 0.35rem;
+  color: #0b4f6c;
+  font-weight: 600;
+}
+
+.memberBio {
+  margin: 0;
+  color: #334155;
+  line-height: 1.5;
+}
+
+.contactRow {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.contactIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #eef5f6;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #0b4f6c;
+  text-decoration: none;
+  transition: background 160ms ease, transform 160ms ease;
+}
+
+.contactIcon:hover {
+  background: #d6e7ec;
+  transform: translateY(-2px);
 }
 
 .galleryGrid img {
