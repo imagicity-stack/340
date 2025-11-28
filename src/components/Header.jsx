@@ -11,10 +11,7 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <div className={styles.bar}>
-        <Link to="/" className={styles.logo} aria-label="340 Real Estate home">
-          340 Real Estate
-        </Link>
-        <nav className={styles.navLinks} aria-label="Primary">
+        <nav className={`${styles.navLinks} ${styles.navLeft}`} aria-label="Primary left">
           <div className={styles.dropdown}>
             <NavLink to="/portfolio" className={navLinkClass}>
               Property Search
@@ -34,6 +31,16 @@ const Header = () => {
           <NavLink to="/testimonials" className={navLinkClass}>
             Testimonials
           </NavLink>
+        </nav>
+
+        <Link to="/" className={styles.logo} aria-label="340 Real Estate home">
+          340 Real Estate
+        </Link>
+
+        <nav className={`${styles.navLinks} ${styles.navRight}`} aria-label="Primary right">
+          <NavLink to="/team" className={navLinkClass}>
+            Team
+          </NavLink>
           <NavLink to="/about-st-john" className={navLinkClass}>
             About Us
           </NavLink>
@@ -41,6 +48,7 @@ const Header = () => {
             Contact
           </NavLink>
         </nav>
+
         <button
           className={styles.hamburger}
           aria-label="Toggle navigation"
@@ -59,6 +67,9 @@ const Header = () => {
           </NavLink>
           <NavLink to="/testimonials" className={styles.navLink} onClick={() => setOpen(false)}>
             Testimonials
+          </NavLink>
+          <NavLink to="/team" className={styles.navLink} onClick={() => setOpen(false)}>
+            Team
           </NavLink>
           <NavLink to="/about-st-john" className={styles.navLink} onClick={() => setOpen(false)}>
             About Us
