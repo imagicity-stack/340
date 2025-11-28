@@ -11,6 +11,8 @@ import AboutStJohn from './pages/AboutStJohn.jsx';
 import AboutUs from './pages/AboutUs.jsx';
 import Contact from './pages/Contact.jsx';
 import AdminApp from './admin/AdminApp.jsx';
+import AdminLogin from './admin/AdminLogin.jsx';
+import AdminRouteGuard from './admin/AdminRouteGuard.jsx';
 import Team from './pages/Team.jsx';
 import { SiteDataProvider } from './state/SiteDataContext.jsx';
 
@@ -29,7 +31,15 @@ const App = () => {
         <Route path="/about-st-john" element={<AboutStJohn />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/admin/*" element={<AdminApp />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route
+          path="/admin/*"
+          element={
+            <AdminRouteGuard>
+              <AdminApp />
+            </AdminRouteGuard>
+          }
+        />
       </Routes>
       <Footer />
     </SiteDataProvider>
