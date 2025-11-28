@@ -41,7 +41,7 @@ const Header = () => {
           <NavLink to="/team" className={navLinkClass}>
             Team
           </NavLink>
-          <NavLink to="/about-st-john" className={navLinkClass}>
+          <NavLink to="/about-us" className={navLinkClass}>
             About Us
           </NavLink>
           <NavLink to="/contact" className={navLinkClass}>
@@ -71,7 +71,7 @@ const Header = () => {
           <NavLink to="/team" className={styles.navLink} onClick={() => setOpen(false)}>
             Team
           </NavLink>
-          <NavLink to="/about-st-john" className={styles.navLink} onClick={() => setOpen(false)}>
+          <NavLink to="/about-us" className={styles.navLink} onClick={() => setOpen(false)}>
             About Us
           </NavLink>
           <NavLink to="/contact" className={styles.navLink} onClick={() => setOpen(false)}>
