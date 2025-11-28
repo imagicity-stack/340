@@ -227,12 +227,17 @@ const AdminApp = () => {
     setActiveTab('portfolio');
   };
 
-  const addRental = () => {
-    if (!rentalForm.propertyName || !rentalForm.nightlyRate) return;
+  const addRental = async () => {
+  if (!rentalForm.propertyName || !rentalForm.nightlyRate) return;
 
-    const amenityLabels = amenityOptions.reduce((acc, option) => ({ ...acc, [option.key]: option.label }), {});
+  try {
+    const amenityLabels = amenityOptions.reduce(
+      (acc, option) => ({ ...acc, [option.key]: option.label }),
+      {}
+    );
 
     const payload = {
+      // keep ID for local UI, but also store Firestore ID later
       id: Date.now(),
       name: rentalForm.propertyName,
       type: rentalForm.propertyType,
@@ -277,13 +282,25 @@ const AdminApp = () => {
         keyPickupLocation: rentalForm.keyPickupLocation,
         keyPickupInstructions: rentalForm.keyPickupInstructions,
       },
+      createdAt: Date.now(),
     };
 
-    setRentals((items) => [...items, payload]);
+    // 🔥 1) Write to Firestore
+    const docRef = await addDoc(collection(db, 'rentals'), payload);
+
+    // 🔥 2) Update local state with Firestore ID for UI
+    setRentals((items) => [...items, { ...payload, id: docRef.id }]);
+
+    // 🔥 3) Reset form + notice
     setRentalForm(getInitialRentalForm());
-    setMiniNotice('Rental property added to front-end inventory.');
+    setMiniNotice('Rental property saved to Firestore and added to front-end inventory.');
     setActiveTab('rentals');
-  };
+  } catch (error) {
+    console.error('Failed to save rental property', error);
+    setMiniNotice('Something went wrong saving this rental. Check console.');
+  }
+};
+
 
   const addTestimonial = () => {
     setTestimonials((items) => [
