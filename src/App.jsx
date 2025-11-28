@@ -2,6 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header.jsx';
 import SocialBar from './components/SocialBar.jsx';
+import Footer from './components/Footer.jsx';
 import Home from './pages/Home.jsx';
 import Portfolio from './pages/Portfolio.jsx';
 import Rentals from './pages/Rentals.jsx';
@@ -28,6 +29,7 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/admin/*" element={<AdminApp />} />
       </Routes>
+      <Footer />
     </SiteDataProvider>
   );
 };

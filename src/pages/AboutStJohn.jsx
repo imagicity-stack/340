@@ -1,6 +1,21 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import styles from './AboutStJohn.module.css';
 
+const mapOptions = [
+  {
+    key: 'illustrated',
+    label: 'Illustrated Map',
+    src: '/stjhon-gallery/340map1.jpg',
+    alt: 'Illustrated map of St. John highlighting key areas and bays.',
+  },
+  {
+    key: 'propertyZones',
+    label: 'Property Zones Map',
+    src: '/stjhon-gallery/340map2.jpg',
+    alt: 'St. John property zones map showing different real estate areas.',
+  },
+];
+
 const AboutStJohn = () => {
   const galleryImages = useMemo(
     () => [
@@ -14,6 +29,105 @@ const AboutStJohn = () => {
 
   const [active, setActive] = useState(0);
   const [placeholderShown, setPlaceholderShown] = useState({});
+  const [activeMap, setActiveMap] = useState(mapOptions[0].key);
+
+  const landSubdivisions = [
+    {
+      name: 'ADRIAN, BEVERHOUDTSBERG and BELLEVUE',
+      description: "Somewhat ‘flat’ land five minutes drive to town, predominantly valley views referred to as the “country”",
+    },
+    {
+      name: 'ANNABERG',
+      description: 'North Shore land near Francis and Maho bays',
+    },
+    {
+      name: 'BETHANY',
+      description: 'High above Cruz Bay and Great Cruz Bay with views from South to West',
+    },
+    {
+      name: 'BORDEAUX HEIGHTS',
+      description: 'On top of Bordeaux Mountain with views East to Virgin Gorda',
+    },
+    {
+      name: 'CALABASH BOOM',
+      description: 'In Coral Bay past Shipwreck Restaurant with views East to the British Virgins',
+    },
+    {
+      name: 'CAROLINA',
+      description:
+        'One thousand acres+/- including Bordeaux mountain and sweeping around the hills above Coral Bay to the North and East.',
+    },
+    {
+      name: 'CATHERINEBERG',
+      description: 'Above Trunk Bay with views from West through North to East. Access from Either Rt 10 or Rt 20',
+    },
+    {
+      name: 'CHOCOLATE HOLE',
+      description: 'Established area on South side, close to Cruz Bay with views from East through South to West',
+    },
+    {
+      name: 'CONCORDIA',
+      description: 'South of Coral Bay near Salt Pond Bay with predominantly South views',
+    },
+    {
+      name: 'CONTANT',
+      description: 'Close to Cruz Bay, hillside on either side of Enighed Pond with views South to West',
+    },
+    {
+      name: 'DITLEFF POINT',
+      description:
+        'Just before Fish Bay on south shore, mostly waterfront parcels with views from East, West and South / Caribbean Sea to Pillsbury Sound.',
+    },
+    {
+      name: 'DREEKETS BAY',
+      description: 'East End land with views North to Tortola',
+    },
+    {
+      name: 'EMMAUS and EDEN',
+      description: 'Coral Bay just across from fire station and past church, with views South, some East',
+    },
+    {
+      name: 'ENIGHED',
+      description: 'Close to Cruz Bay, between Bethany and Pastory, with mostly West views',
+    },
+    {
+      name: 'FISH BAY & SKYTOP',
+      description: 'South side, past Chocolate Hole with views South to West',
+    },
+    {
+      name: 'GIFT & REGENBACK, GLUCKSBERG & SAN SOUCI and GUINEA GUT',
+      description: 'Gift Hill land with mostly Westerly views',
+    },
+    {
+      name: 'GREAT CRUZ BAY',
+      description:
+        'Oldest and very established neighborhood surrounding Westin Resort, with mostly West views towards St Thomas. All parcels start with a 300- number.',
+    },
+    {
+      name: 'HAULOVER & HANSEN BAY',
+      description: 'East End land with views in all directions',
+    },
+    {
+      name: 'MANDAHL',
+      description: 'South of Coral Bay and past Concordia this land has mostly South views',
+    },
+    {
+      name: 'MIDLAND',
+      description: 'Land located out by Maho Bay',
+    },
+    {
+      name: 'PASTORY',
+      description: 'Just outside Cruz Bay with mostly West views',
+    },
+    {
+      name: 'PETER BAY',
+      description: 'North Shore land with views of National Park bays and Tortola',
+    },
+    {
+      name: 'RENDEZVOUS and DITLEFF, POINT RENDEZVOUS, BOATMAN POINT, KLEIN BAY',
+      description: 'Turn of Rt 104 and the dead end sign by Rendezvous. with bay and Caribbean Sea views mostly South.',
+    },
+  ];
 
   const condoAreas = [
     {
@@ -229,6 +343,53 @@ const AboutStJohn = () => {
               <article key={area.name} className={styles.condoCard} role="listitem">
                 <h3>{area.name}</h3>
                 <p>{area.description}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className={`section ${styles.mapSection}`}>
+        <div className="container">
+          <div className={styles.mapHeader}>
+            <h2>St. John Property &amp; Area Maps</h2>
+            <p>View a quick illustrated overview or explore detailed property zones across the island.</p>
+          </div>
+
+          <div className={styles.mapControls} role="tablist" aria-label="Select St. John map view">
+            {mapOptions.map((option) => (
+              <button
+                key={option.key}
+                className={`${styles.mapButton} ${activeMap === option.key ? styles.mapButtonActive : ''}`}
+                onClick={() => setActiveMap(option.key)}
+                role="tab"
+                aria-selected={activeMap === option.key}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+
+          <div className={styles.mapDisplay}>
+            <img
+              src={mapOptions.find((option) => option.key === activeMap)?.src}
+              alt={mapOptions.find((option) => option.key === activeMap)?.alt}
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className={`section ${styles.landSection}`}>
+        <div className="container">
+          <div className={styles.landHeader}>
+            <h2>Land Subdivisions in St. John.</h2>
+          </div>
+
+          <div className={styles.landGrid} role="list">
+            {landSubdivisions.map((subdivision) => (
+              <article key={subdivision.name} className={styles.landCard} role="listitem">
+                <h3>{subdivision.name}</h3>
+                <p>{subdivision.description}</p>
               </article>
             ))}
           </div>
