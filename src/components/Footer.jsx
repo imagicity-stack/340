@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styles from './Footer.module.css';
 
 const Footer = () => {
@@ -20,9 +21,9 @@ const Footer = () => {
             <br />
             <a href="mailto:hello@340realestate.com">hello@340realestate.com</a>
           </p>
-          <a className={styles.adminLink} href="/admin">
+          <Link className={styles.adminLink} to="/admin">
             Admin Login
-          </a>
+          </Link>
         </div>
       </div>
     </footer>
