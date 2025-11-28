@@ -1,4 +1,6 @@
-import React, { createContext, useContext, useMemo, useState } from 'react';
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { collection, onSnapshot } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 
 const initialProperties = [
   {
@@ -43,42 +45,6 @@ const initialProperties = [
   },
 ];
 
-const initialRentals = [
-  {
-    id: 1,
-    name: 'Maho Bay Escape',
-    guests: 8,
-    beds: 4,
-    baths: 3,
-    weekly: '$6,800',
-    amenities: ['Pool', 'Chef-ready kitchen', 'Private dock'],
-    image:
-      'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1200&q=80',
-  },
-  {
-    id: 2,
-    name: 'Sea Cliff Haven',
-    guests: 6,
-    beds: 3,
-    baths: 3,
-    weekly: '$5,400',
-    amenities: ['Spa deck', 'Wi-Fi', 'Sunrise views'],
-    image:
-      'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?auto=format&fit=crop&w=1200&q=80',
-  },
-  {
-    id: 3,
-    name: 'Palm Grove Villa',
-    guests: 10,
-    beds: 5,
-    baths: 4,
-    weekly: '$7,900',
-    amenities: ['Concierge', 'Cinema room', 'Outdoor kitchen'],
-    image:
-      'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1200&q=80',
-  },
-];
-
 const initialTestimonials = [
   {
     id: 1,
@@ -108,9 +74,18 @@ const SiteDataContext = createContext();
 
 export const SiteDataProvider = ({ children }) => {
   const [properties, setProperties] = useState(initialProperties);
-  const [rentals, setRentals] = useState(initialRentals);
+  const [rentals, setRentals] = useState([]);
   const [testimonials, setTestimonials] = useState(initialTestimonials);
   const [gallery, setGallery] = useState(initialGallery);
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, 'rentals'), (snapshot) => {
+      const items = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      setRentals(items);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const value = useMemo(
     () => ({ properties, rentals, testimonials, gallery, setProperties, setRentals, setTestimonials, setGallery }),
