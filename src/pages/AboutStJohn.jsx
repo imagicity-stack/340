@@ -1,6 +1,21 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import styles from './AboutStJohn.module.css';
 
+const mapOptions = [
+  {
+    key: 'illustrated',
+    label: 'Illustrated Map',
+    src: '/stjhon-gallery/340map1.jpg',
+    alt: 'Illustrated map of St. John highlighting key areas and bays.',
+  },
+  {
+    key: 'propertyZones',
+    label: 'Property Zones Map',
+    src: '/stjhon-gallery/340map2.jpg',
+    alt: 'St. John property zones map showing different real estate areas.',
+  },
+];
+
 const AboutStJohn = () => {
   const galleryImages = useMemo(
     () => [
@@ -85,21 +100,6 @@ const AboutStJohn = () => {
     {
       name: 'Westin Vacation Club',
       description: 'Studio to 3BR timeshares across from the Westin Resort. Access to pools and hotel facilities.',
-    },
-  ];
-
-  const mapOptions = [
-    {
-      key: 'illustrated',
-      label: 'Illustrated Map',
-      src: '/stjhon-gallery/340map1.jpg',
-      alt: 'Illustrated map of St. John highlighting key areas and bays.',
-    },
-    {
-      key: 'propertyZones',
-      label: 'Property Zones Map',
-      src: '/stjhon-gallery/340map2.jpg',
-      alt: 'St. John property zones map showing different real estate areas.',
     },
   ];
 
