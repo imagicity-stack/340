@@ -3,7 +3,8 @@
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
+import { collection, addDoc } from 'firebase/firestore';
+import { auth, db } from '@/lib/firebase';
 import styles from './AdminApp.module.css';
 import { useSiteData } from '../state/SiteDataContext.jsx';
 
@@ -225,13 +226,12 @@ const AdminApp = () => {
     setActiveTab('portfolio');
   };
 
-  const addRental = () => {
+  const addRental = async () => {
     if (!rentalForm.propertyName || !rentalForm.nightlyRate) return;
 
     const amenityLabels = amenityOptions.reduce((acc, option) => ({ ...acc, [option.key]: option.label }), {});
 
     const payload = {
-      id: Date.now(),
       name: rentalForm.propertyName,
       type: rentalForm.propertyType,
       slug: rentalForm.slug || slugify(rentalForm.propertyName),
@@ -277,10 +277,15 @@ const AdminApp = () => {
       },
     };
 
-    setRentals((items) => [...items, payload]);
-    setRentalForm(getInitialRentalForm());
-    setMiniNotice('Rental property added to front-end inventory.');
-    setActiveTab('rentals');
+    try {
+      const docRef = await addDoc(collection(db, 'rentals'), payload);
+      setRentals((items) => [...items, { ...payload, id: docRef.id }]);
+      setRentalForm(getInitialRentalForm());
+      setMiniNotice('Rental property added to front-end inventory.');
+      setActiveTab('rentals');
+    } catch (error) {
+      console.error('Unable to add rental property', error);
+    }
   };
 
   const addTestimonial = () => {
