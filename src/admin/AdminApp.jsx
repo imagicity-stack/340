@@ -7,6 +7,8 @@ import { collection, addDoc } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase';
 import styles from './AdminApp.module.css';
 import { useSiteData } from '../state/SiteDataContext.jsx';
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 
 const tabs = [
   'portfolio',
@@ -229,7 +231,11 @@ const AdminApp = () => {
   const addRental = async () => {
     if (!rentalForm.propertyName || !rentalForm.nightlyRate) return;
 
-    const amenityLabels = amenityOptions.reduce((acc, option) => ({ ...acc, [option.key]: option.label }), {});
+  try {
+    const amenityLabels = amenityOptions.reduce(
+      (acc, option) => ({ ...acc, [option.key]: option.label }),
+      {}
+    );
 
     const payload = {
       name: rentalForm.propertyName,
@@ -275,6 +281,7 @@ const AdminApp = () => {
         keyPickupLocation: rentalForm.keyPickupLocation,
         keyPickupInstructions: rentalForm.keyPickupInstructions,
       },
+      createdAt: Date.now(),
     };
 
     try {
