@@ -6,6 +6,8 @@ import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import styles from './AdminApp.module.css';
 import { useSiteData } from '../state/SiteDataContext.jsx';
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 
 const tabs = [
   'portfolio',
