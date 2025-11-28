@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import styles from './AdminApp.module.css';
+import { useSiteData } from '../state/SiteDataContext.jsx';
 
 const tabs = ['testimonials', 'properties', 'rentals', 'gallery'];
 
@@ -8,22 +9,20 @@ const AdminApp = () => {
   const [password, setPassword] = useState('');
   const [activeTab, setActiveTab] = useState('testimonials');
 
-  const [testimonials, setTestimonials] = useState([
-    { id: 1, name: 'Summer L.', quote: 'Our villa sold in 12 days.' },
-  ]);
-  const [listings, setListings] = useState([
-    { id: 1, name: 'Reef Bay Haven', price: '$3,750,000', status: 'for-sale' },
-  ]);
-  const [rentalListings, setRentalListings] = useState([
-    { id: 1, name: 'Maho Bay Escape', weekly: '$6,800' },
-  ]);
-  const [gallery, setGallery] = useState([
-    { id: 1, url: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80' },
-  ]);
+  const { properties, rentals, testimonials, gallery, setProperties, setRentals, setTestimonials, setGallery } =
+    useSiteData();
 
   const [form, setForm] = useState({ name: '', quote: '' });
-  const [propertyForm, setPropertyForm] = useState({ name: '', price: '', status: 'for-sale' });
-  const [rentalForm, setRentalForm] = useState({ name: '', weekly: '' });
+  const [propertyForm, setPropertyForm] = useState({
+    name: '',
+    price: '',
+    status: 'for-sale',
+    beds: '',
+    baths: '',
+    acres: '',
+    category: 'villa',
+  });
+  const [rentalForm, setRentalForm] = useState({ name: '', weekly: '', guests: '', beds: '', baths: '' });
   const [galleryUrl, setGalleryUrl] = useState('');
 
   const authenticatedView = useMemo(() => {
@@ -122,6 +121,24 @@ const AdminApp = () => {
                 value={propertyForm.price}
                 onChange={(e) => setPropertyForm((f) => ({ ...f, price: e.target.value }))}
               />
+              <input
+                aria-label="Beds"
+                placeholder="Beds"
+                value={propertyForm.beds}
+                onChange={(e) => setPropertyForm((f) => ({ ...f, beds: e.target.value }))}
+              />
+              <input
+                aria-label="Baths"
+                placeholder="Baths"
+                value={propertyForm.baths}
+                onChange={(e) => setPropertyForm((f) => ({ ...f, baths: e.target.value }))}
+              />
+              <input
+                aria-label="Acreage"
+                placeholder="Acres"
+                value={propertyForm.acres}
+                onChange={(e) => setPropertyForm((f) => ({ ...f, acres: e.target.value }))}
+              />
               <select
                 aria-label="Status"
                 value={propertyForm.status}
@@ -131,18 +148,47 @@ const AdminApp = () => {
                 <option value="for-sale">For Sale</option>
                 <option value="sold">Sold</option>
               </select>
+              <select
+                aria-label="Category"
+                value={propertyForm.category}
+                onChange={(e) => setPropertyForm((f) => ({ ...f, category: e.target.value }))}
+                style={{ padding: '0.65rem', borderRadius: '10px', border: '1px solid #4b6b8a', background: '#0f233b', color: '#e6f4ff' }}
+              >
+                <option value="villa">Villa</option>
+                <option value="house">House</option>
+                <option value="cottage">Cottage</option>
+                <option value="combo">Combo</option>
+              </select>
               <button
                 className="button"
                 onClick={() => {
                   if (!propertyForm.name || !propertyForm.price) return;
-                  setListings((items) => [...items, { ...propertyForm, id: Date.now() }]);
-                  setPropertyForm({ name: '', price: '', status: 'for-sale' });
+                  setProperties((items) => [
+                    ...items,
+                    {
+                      ...propertyForm,
+                      id: Date.now(),
+                      beds: Number(propertyForm.beds || 0),
+                      baths: Number(propertyForm.baths || 0),
+                      acres: Number(propertyForm.acres || 0),
+                      category: propertyForm.category,
+                    },
+                  ]);
+                  setPropertyForm({
+                    name: '',
+                    price: '',
+                    status: 'for-sale',
+                    beds: '',
+                    baths: '',
+                    acres: '',
+                    category: 'villa',
+                  });
                 }}
               >
                 Add property
               </button>
             </div>
-            {listings.map((item) => (
+            {properties.map((item) => (
               <div key={item.id} className={styles.card}>
                 <div className="flex-between">
                   <div>
@@ -155,14 +201,14 @@ const AdminApp = () => {
                   <button
                     className="button secondary"
                     onClick={() =>
-                      setListings((items) =>
+                      setProperties((items) =>
                         items.map((entry) => (entry.id === item.id ? { ...entry, status: item.status === 'sold' ? 'for-sale' : 'sold' } : entry))
                       )
                     }
                   >
                     Toggle sold
                   </button>
-                  <button className="button" onClick={() => setListings((items) => items.filter((p) => p.id !== item.id))}>
+                  <button className="button" onClick={() => setProperties((items) => items.filter((p) => p.id !== item.id))}>
                     Delete
                   </button>
                 </div>
@@ -187,18 +233,48 @@ const AdminApp = () => {
                 value={rentalForm.weekly}
                 onChange={(e) => setRentalForm((f) => ({ ...f, weekly: e.target.value }))}
               />
+              <input
+                aria-label="Guests"
+                placeholder="Guests"
+                value={rentalForm.guests}
+                onChange={(e) => setRentalForm((f) => ({ ...f, guests: e.target.value }))}
+              />
+              <input
+                aria-label="Beds"
+                placeholder="Beds"
+                value={rentalForm.beds}
+                onChange={(e) => setRentalForm((f) => ({ ...f, beds: e.target.value }))}
+              />
+              <input
+                aria-label="Baths"
+                placeholder="Baths"
+                value={rentalForm.baths}
+                onChange={(e) => setRentalForm((f) => ({ ...f, baths: e.target.value }))}
+              />
               <button
                 className="button"
                 onClick={() => {
                   if (!rentalForm.name || !rentalForm.weekly) return;
-                  setRentalListings((items) => [...items, { ...rentalForm, id: Date.now() }]);
-                  setRentalForm({ name: '', weekly: '' });
+                  setRentals((items) => [
+                    ...items,
+                    {
+                      ...rentalForm,
+                      id: Date.now(),
+                      guests: Number(rentalForm.guests || 0),
+                      beds: Number(rentalForm.beds || 0),
+                      baths: Number(rentalForm.baths || 0),
+                      amenities: [],
+                      image:
+                        'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1200&q=80',
+                    },
+                  ]);
+                  setRentalForm({ name: '', weekly: '', guests: '', beds: '', baths: '' });
                 }}
               >
                 Add rental
               </button>
             </div>
-            {rentalListings.map((item) => (
+            {rentals.map((item) => (
               <div key={item.id} className={styles.card}>
                 <div className="flex-between">
                   <h3>{item.name}</h3>
@@ -208,14 +284,14 @@ const AdminApp = () => {
                   <button
                     className="button secondary"
                     onClick={() =>
-                      setRentalListings((items) =>
-                        items.map((entry) => (entry.id === item.id ? { ...entry, weekly: entry.weekly + ' • updated' } : entry))
+                      setRentals((items) =>
+                        items.map((entry) => (entry.id === item.id ? { ...entry, weekly: `${entry.weekly} • updated` } : entry))
                       )
                     }
                   >
                     Edit rate
                   </button>
-                  <button className="button" onClick={() => setRentalListings((items) => items.filter((r) => r.id !== item.id))}>
+                  <button className="button" onClick={() => setRentals((items) => items.filter((r) => r.id !== item.id))}>
                     Delete
                   </button>
                 </div>
@@ -238,7 +314,7 @@ const AdminApp = () => {
                 className="button"
                 onClick={() => {
                   if (!galleryUrl) return;
-                  setGallery((items) => [...items, { id: Date.now(), url: galleryUrl }]);
+                  setGallery((items) => [...items, galleryUrl]);
                   setGalleryUrl('');
                 }}
               >
@@ -246,7 +322,7 @@ const AdminApp = () => {
               </button>
             </div>
             {gallery.map((item, index) => (
-              <div key={item.id} className={styles.card}>
+              <div key={`${item}-${index}`} className={styles.card}>
                 <div className="flex-between">
                   <p style={{ margin: 0 }}>#{index + 1}</p>
                   <div className={styles.actions}>
@@ -263,19 +339,19 @@ const AdminApp = () => {
                     >
                       Move up
                     </button>
-                    <button className="button" onClick={() => setGallery((items) => items.filter((g) => g.id !== item.id))}>
+                    <button className="button" onClick={() => setGallery((items) => items.filter((g) => g !== item))}>
                       Remove
                     </button>
                   </div>
                 </div>
-                <p style={{ wordBreak: 'break-all' }}>{item.url}</p>
+                <p style={{ wordBreak: 'break-all' }}>{item}</p>
               </div>
             ))}
           </section>
         )}
       </div>
     );
-  }, [activeTab, authed, form, gallery, galleryUrl, listings, rentalForm, rentalListings, testimonials]);
+  }, [activeTab, authed, form, gallery, galleryUrl, properties, rentalForm, rentals, testimonials]);
 
   return (
     <div className={styles.wrapper}>

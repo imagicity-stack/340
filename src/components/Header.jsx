@@ -40,9 +40,6 @@ const Header = () => {
           <NavLink to="/contact" className={navLinkClass}>
             Contact
           </NavLink>
-          <NavLink to="/admin" className={styles.navLink}>
-            Admin
-          </NavLink>
         </nav>
         <button
           className={styles.hamburger}
@@ -68,9 +65,6 @@ const Header = () => {
           </NavLink>
           <NavLink to="/contact" className={styles.navLink} onClick={() => setOpen(false)}>
             Contact
-          </NavLink>
-          <NavLink to="/admin" className={styles.navLink} onClick={() => setOpen(false)}>
-            Admin
           </NavLink>
         </div>
       )}

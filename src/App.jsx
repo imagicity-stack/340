@@ -9,10 +9,11 @@ import Testimonials from './pages/Testimonials.jsx';
 import AboutStJohn from './pages/AboutStJohn.jsx';
 import Contact from './pages/Contact.jsx';
 import AdminApp from './admin/AdminApp.jsx';
+import { SiteDataProvider } from './state/SiteDataContext.jsx';
 
 const App = () => {
   return (
-    <>
+    <SiteDataProvider>
       <Header />
       <SocialBar />
       <Routes>
@@ -24,7 +25,7 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/admin/*" element={<AdminApp />} />
       </Routes>
-    </>
+    </SiteDataProvider>
   );
 };
 

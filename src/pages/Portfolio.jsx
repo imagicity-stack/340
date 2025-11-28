@@ -1,48 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import styles from './Portfolio.module.css';
-
-const listings = [
-  {
-    id: 1,
-    name: 'Reef Bay Haven',
-    price: '$3,750,000',
-    beds: 4,
-    baths: 4,
-    acres: 1.1,
-    category: 'villa',
-    status: 'for-sale',
-  },
-  {
-    id: 2,
-    name: 'Island Breeze Cottage',
-    price: '$980,000',
-    beds: 3,
-    baths: 2,
-    acres: 0.5,
-    category: 'cottage',
-    status: 'recent-sale',
-  },
-  {
-    id: 3,
-    name: 'Cruz Bay Lookout',
-    price: '$1,800,000',
-    beds: 3,
-    baths: 3,
-    acres: 0.8,
-    category: 'house',
-    status: 'for-sale',
-  },
-  {
-    id: 4,
-    name: 'Calabash Point Combo',
-    price: '$5,400,000',
-    beds: 6,
-    baths: 6,
-    acres: 2.5,
-    category: 'combo',
-    status: 'recent-sale',
-  },
-];
+import { useSiteData } from '../state/SiteDataContext.jsx';
 
 const categories = [
   { key: 'combo', label: 'Combo properties' },
@@ -52,16 +10,17 @@ const categories = [
 ];
 
 const Portfolio = () => {
+  const { properties } = useSiteData();
   const [tab, setTab] = useState('for-sale');
   const [filter, setFilter] = useState('');
 
   const filtered = useMemo(() => {
-    return listings.filter((listing) => {
+    return properties.filter((listing) => {
       const matchesTab = tab === 'all' ? true : listing.status === tab;
       const matchesCategory = filter ? listing.category === filter : true;
       return matchesTab && matchesCategory;
     });
-  }, [tab, filter]);
+  }, [filter, properties, tab]);
 
   return (
     <main className="section">

@@ -1,43 +1,9 @@
 import React from 'react';
 import styles from './Rentals.module.css';
-
-const rentals = [
-  {
-    id: 1,
-    name: 'Maho Bay Escape',
-    guests: 8,
-    beds: 4,
-    baths: 3,
-    weekly: '$6,800',
-    amenities: ['Pool', 'Chef-ready kitchen', 'Private dock'],
-    image:
-      'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1200&q=80',
-  },
-  {
-    id: 2,
-    name: 'Sea Cliff Haven',
-    guests: 6,
-    beds: 3,
-    baths: 3,
-    weekly: '$5,400',
-    amenities: ['Spa deck', 'Wi-Fi', 'Sunrise views'],
-    image:
-      'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?auto=format&fit=crop&w=1200&q=80',
-  },
-  {
-    id: 3,
-    name: 'Palm Grove Villa',
-    guests: 10,
-    beds: 5,
-    baths: 4,
-    weekly: '$7,900',
-    amenities: ['Concierge', 'Cinema room', 'Outdoor kitchen'],
-    image:
-      'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1200&q=80',
-  },
-];
+import { useSiteData } from '../state/SiteDataContext.jsx';
 
 const Rentals = () => {
+  const { rentals } = useSiteData();
   return (
     <main className="section">
       <div className="container">
@@ -55,7 +21,7 @@ const Rentals = () => {
                 👥 {rental.guests} guests · 🛏️ {rental.beds} beds · 🛁 {rental.baths} baths
               </p>
               <div className={styles.meta}>
-                {rental.amenities.map((item) => (
+                {(rental.amenities || []).map((item) => (
                   <span key={item} className="badge" style={{ background: '#e0f7f5', color: '#0b4f6c' }}>
                     {item}
                   </span>

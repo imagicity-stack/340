@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styles from './Home.module.css';
+import { useSiteData } from '../state/SiteDataContext.jsx';
 
 const heroSlides = [
   'Oceanfront estates with world-class amenities',
@@ -13,38 +14,12 @@ const team = [
   { name: 'Mara Blake', role: 'Property Manager' },
 ];
 
-const villas = [
-  {
-    name: 'Azure Vista Villa',
-    price: '$4,200,000',
-    beds: 5,
-    baths: 5,
-    acres: 1.2,
-  },
-  {
-    name: 'Coral Bay Cottage',
-    price: '$1,150,000',
-    beds: 3,
-    baths: 2,
-    acres: 0.4,
-  },
-  {
-    name: 'Seaglass Retreat',
-    price: '$2,850,000',
-    beds: 4,
-    baths: 4,
-    acres: 0.9,
-  },
-];
-
-const gallery = [
-  'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1200&q=80',
-  'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80',
-  'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=80',
-  'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80',
-];
-
 const Home = () => {
+  const { properties, gallery } = useSiteData();
+  const showcaseVillas = useMemo(
+    () => properties.filter((property) => property.status !== 'recent-sale').slice(0, 3),
+    [properties]
+  );
   return (
     <main>
       <section className={styles.hero}>
@@ -103,8 +78,8 @@ const Home = () => {
         <div className="container">
           <h2>Signature Villa Rentals</h2>
           <div className={`grid ${styles.villaGrid}`}>
-            {villas.map((villa) => (
-              <div key={villa.name} className="card">
+            {showcaseVillas.map((villa) => (
+              <div key={villa.id} className="card">
                 <div className="flex-between">
                   <h3>{villa.name}</h3>
                   <span className="price">{villa.price}</span>
