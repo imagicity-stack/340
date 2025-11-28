@@ -2,9 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
-import { auth, db } from '../../lib/firebase.js';
+import { getAuthHelpers, getFirestoreHelpers } from '../../lib/firebase.js';
 import styles from './AdminApp.module.css';
 
 const AdminLogin = () => {
@@ -14,28 +12,50 @@ const AdminLogin = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const validateAdmin = async (user) => {
+    const { db, doc, getDoc } = await getFirestoreHelpers();
+    if (!db || !doc || !getDoc || !user?.uid) return false;
     const adminDoc = await getDoc(doc(db, 'admins', user.uid));
     return adminDoc.exists();
   };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (!user) return;
+    let unsubscribe;
+    let active = true;
 
+    const subscribe = async () => {
       try {
-        const isAdmin = await validateAdmin(user);
-        if (isAdmin) {
-          navigate('/admin', { replace: true });
-        } else {
-          await signOut(auth);
+        const { auth, onAuthStateChanged, signOut } = await getAuthHelpers();
+        const { db, doc, getDoc } = await getFirestoreHelpers();
+        if (!auth || !onAuthStateChanged || !db || !doc || !getDoc) {
+          return;
         }
-      } catch (validationError) {
-        console.error('Error validating admin role', validationError);
-        await signOut(auth);
-      }
-    });
 
-    return unsubscribe;
+        unsubscribe = onAuthStateChanged(auth, async (user) => {
+          if (!user || !active) return;
+
+          try {
+            const isAdmin = await validateAdmin(user);
+            if (isAdmin) {
+              navigate('/admin', { replace: true });
+            } else {
+              await signOut(auth);
+            }
+          } catch (validationError) {
+            console.error('Error validating admin role', validationError);
+            await signOut(auth);
+          }
+        });
+      } catch (listenerError) {
+        console.error('Unable to start auth listener', listenerError);
+      }
+    };
+
+    subscribe();
+
+    return () => {
+      active = false;
+      if (unsubscribe) unsubscribe();
+    };
   }, [navigate]);
 
   const handleSubmit = async (event) => {
@@ -44,6 +64,11 @@ const AdminLogin = () => {
     setIsSubmitting(true);
 
     try {
+      const { auth, signInWithEmailAndPassword, signOut } = await getAuthHelpers();
+      if (!auth || !signInWithEmailAndPassword || !signOut) {
+        throw new Error('Firebase Auth unavailable');
+      }
+
       const credential = await signInWithEmailAndPassword(auth, form.email, form.password);
       const isAdmin = await validateAdmin(credential.user);
 

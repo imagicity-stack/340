@@ -2,9 +2,8 @@
 
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { signOut } from 'firebase/auth';
 import styles from './AdminApp.module.css';
-import { auth } from '../../lib/firebase.js';
+import { getAuthHelpers } from '../../lib/firebase.js';
 import { useSiteData } from '../state/SiteDataContext.jsx';
 
 const tabs = [
@@ -85,8 +84,16 @@ const AdminApp = () => {
   const [miniNotice, setMiniNotice] = useState('');
 
   const handleLogout = async () => {
-    await signOut(auth);
-    navigate('/admin/login');
+    try {
+      const { auth, signOut } = await getAuthHelpers();
+      if (auth && signOut) {
+        await signOut(auth);
+      }
+    } catch (error) {
+      console.error('Unable to sign out', error);
+    } finally {
+      navigate('/admin/login');
+    }
   };
 
   const addPortfolioItem = () => {

@@ -2,9 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
-import { auth, db } from '../../lib/firebase.js';
+import { getAuthHelpers, getFirestoreHelpers } from '../../lib/firebase.js';
 
 const AdminRouteGuard = ({ children }) => {
   const navigate = useNavigate();
@@ -12,44 +10,66 @@ const AdminRouteGuard = ({ children }) => {
 
   useEffect(() => {
     let isMounted = true;
+    let unsubscribe = null;
 
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (!isMounted) return;
-
-      if (!user) {
-        navigate('/admin/login', { replace: true });
-        setIsChecking(false);
-        return;
-      }
-
+    const runAuthCheck = async () => {
       try {
-        const adminDoc = await getDoc(doc(db, 'admins', user.uid));
+        const { auth, onAuthStateChanged, signOut } = await getAuthHelpers();
+        const { db, doc, getDoc } = await getFirestoreHelpers();
 
-        if (!adminDoc.exists()) {
-          await signOut(auth);
-          if (isMounted) {
+        if (!auth || !onAuthStateChanged || !db || !doc || !getDoc) {
+          throw new Error('Firebase not available in this environment.');
+        }
+
+        unsubscribe = onAuthStateChanged(auth, async (user) => {
+          if (!isMounted) return;
+
+          if (!user) {
             navigate('/admin/login', { replace: true });
             setIsChecking(false);
+            return;
           }
-          return;
-        }
 
-        if (isMounted) {
-          setIsChecking(false);
-        }
+          try {
+            const adminDoc = await getDoc(doc(db, 'admins', user.uid));
+
+            if (!adminDoc.exists()) {
+              await signOut(auth);
+              if (isMounted) {
+                navigate('/admin/login', { replace: true });
+                setIsChecking(false);
+              }
+              return;
+            }
+
+            if (isMounted) {
+              setIsChecking(false);
+            }
+          } catch (error) {
+            console.error('Admin validation failed', error);
+            await signOut(auth);
+            if (isMounted) {
+              navigate('/admin/login', { replace: true });
+              setIsChecking(false);
+            }
+          }
+        });
       } catch (error) {
-        console.error('Admin validation failed', error);
-        await signOut(auth);
+        console.error('Unable to start admin guard', error);
         if (isMounted) {
           navigate('/admin/login', { replace: true });
           setIsChecking(false);
         }
       }
-    });
+    };
+
+    runAuthCheck();
 
     return () => {
       isMounted = false;
-      unsubscribe();
+      if (unsubscribe) {
+        unsubscribe();
+      }
     };
   }, [navigate]);
 
