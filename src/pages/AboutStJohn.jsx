@@ -14,6 +14,94 @@ const AboutStJohn = () => {
 
   const [active, setActive] = useState(0);
   const [placeholderShown, setPlaceholderShown] = useState({});
+  const [selectedMap, setSelectedMap] = useState('illustrated');
+
+  const condoAreas = [
+    {
+      name: 'Battery Hill',
+      description:
+        'Four three-story buildings just outside Cruz Bay with views of the harbor and St. Thomas. Two bedrooms one bath units and one studio unit. Shared pool.',
+    },
+    {
+      name: 'Bethany/Upper Deck',
+      description: 'Single and double units in masonry buildings with stunning views from South to West. Five-minute drive to Cruz Bay.',
+    },
+    {
+      name: 'Conch Villas',
+      description: 'Five one and two-bedroom hardwood units with views of Enighed Pond. Walking distance to Cruz Bay.',
+    },
+    {
+      name: 'Cruz Bay Villas',
+      description: 'Converted home with one-bedroom units on Pocket Money Hill. Great St. Thomas views, sunset, and a shared pool.',
+    },
+    {
+      name: 'Cruz Views',
+      description: 'Ten one-bedroom masonry units on Pocket Money Hill with shared pool and sunset views.',
+    },
+    {
+      name: 'Gallows Point',
+      description: 'Fifteen waterfront buildings with four one-bedroom units each. Shared pool and beach. Easy walk to town.',
+    },
+    {
+      name: 'Grande Bay',
+      description: 'One to three-bedroom units on Cruz Bay beach. Resort-style amenities including pool and gym. Walkable to town.',
+    },
+    {
+      name: 'Lavender Hill',
+      description: 'Two buildings with twelve one and two-bedroom units, harbor views, and a shared pool. Walkable to town.',
+    },
+    {
+      name: 'Palm & Mango Terrace',
+      description: 'Two and three-bedroom condos just outside Cruz Bay. Walking distance to town and Frank Bay beach.',
+    },
+    {
+      name: 'Pastory Estate',
+      description: 'Four buildings with thirteen condos and shared pool. Five minutes from Cruz Bay by car.',
+    },
+    {
+      name: 'Selene’s',
+      description: 'Six masonry studio units in the heart of Cruz Bay.',
+    },
+    {
+      name: 'Serendip',
+      description: 'Sunset views over St. Thomas from ten one-bedroom and studio condos just above Cruz Bay.',
+    },
+    {
+      name: 'Sirenusa',
+      description: 'Forty luxury condos with pool, gym, and game room overlooking Cruz Bay.',
+    },
+    {
+      name: 'Sunset Ridge',
+      description: 'Six two-bedroom units with timeshare ownership and splash pools. RCI affiliation. Incredible views.',
+    },
+    {
+      name: 'Villa Caribe',
+      description: 'Five condos with lap pool, lovely south views, just outside Cruz Bay. Walkable.',
+    },
+    {
+      name: 'Virgin Grand Villas',
+      description: 'Two seasonal homes with three bedrooms on Gift Hill. Gorgeous views of St. Thomas and sunset.',
+    },
+    {
+      name: 'Westin Vacation Club',
+      description: 'Studio to 3BR timeshares across from the Westin Resort. Access to pools and hotel facilities.',
+    },
+  ];
+
+  const mapTabs = [
+    {
+      id: 'illustrated',
+      label: 'Illustrated Map',
+      src: '/stjhon-gallery/340map1.jpg',
+      alt: 'Illustrated map of St. John',
+    },
+    {
+      id: 'property-zones',
+      label: 'Property Zones Map',
+      src: '/stjhon-gallery/340map2.jpg',
+      alt: 'St. John property zones map',
+    },
+  ];
 
   const condoAreas = [
     {
@@ -232,6 +320,39 @@ const AboutStJohn = () => {
               </article>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className={`section ${styles.mapSection}`}>
+        <div className="container">
+          <div className={styles.mapHeader}>
+            <h2>St. John Property &amp; Area Maps</h2>
+            <div className={styles.mapTabs} role="tablist" aria-label="Map selection">
+              {mapTabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={selectedMap === tab.id}
+                  className={`${styles.mapTab} ${selectedMap === tab.id ? styles.mapTabActive : ''}`}
+                  onClick={() => setSelectedMap(tab.id)}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {mapTabs.map((tab) => (
+            <div
+              key={tab.id}
+              role="tabpanel"
+              aria-hidden={selectedMap !== tab.id}
+              className={`${styles.mapPanel} ${selectedMap === tab.id ? styles.mapPanelActive : ''}`}
+            >
+              <img src={tab.src} alt={tab.alt} />
+            </div>
+          ))}
         </div>
       </section>
     </main>
