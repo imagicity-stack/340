@@ -100,7 +100,7 @@ const AboutStJohn = () => {
   return (
     <main className={styles.page}>
       <section className={`${styles.hero} section`}>
-        <div className="container">
+        <div className={`${styles.heroContent} container`}>
           <p className={styles.kicker}>About St. John, Virgin Islands</p>
           <h1>Discover St. John: A Journey Through History, Nature, and Island Charm</h1>
           <p className={styles.lead}>
