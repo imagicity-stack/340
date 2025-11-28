@@ -1,5 +1,9 @@
+'use client';
+
 import React, { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './AdminApp.module.css';
+import { getAuthHelpers } from '../../lib/firebase.js';
 import { useSiteData } from '../state/SiteDataContext.jsx';
 
 const tabs = [
@@ -14,10 +18,8 @@ const tabs = [
 ];
 
 const AdminApp = () => {
-  const [authed, setAuthed] = useState(false);
-  const [credentials, setCredentials] = useState({ username: '', password: '' });
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('portfolio');
-  const [loginError, setLoginError] = useState('');
 
   const { properties, rentals, testimonials, gallery, setProperties, setRentals, setTestimonials, setGallery } =
     useSiteData();
@@ -81,13 +83,17 @@ const AdminApp = () => {
 
   const [miniNotice, setMiniNotice] = useState('');
 
-  const handleLogin = () => {
-    if (credentials.username === 'admin' && credentials.password === '123') {
-      setAuthed(true);
-      setLoginError('');
-      return;
+  const handleLogout = async () => {
+    try {
+      const { auth, signOut } = await getAuthHelpers();
+      if (auth && signOut) {
+        await signOut(auth);
+      }
+    } catch (error) {
+      console.error('Unable to sign out', error);
+    } finally {
+      navigate('/admin/login');
     }
-    setLoginError('Invalid credentials. Use admin / 123 for this demo.');
   };
 
   const addPortfolioItem = () => {
@@ -172,7 +178,6 @@ const AdminApp = () => {
   );
 
   const authenticatedView = useMemo(() => {
-    if (!authed) return null;
     return (
       <div className={styles.portal}>
         <header className={styles.hero}>
@@ -184,7 +189,7 @@ const AdminApp = () => {
               <button className="button" onClick={addTestimonial}>
                 Quick add testimonial
               </button>
-              <button className="button secondary" onClick={() => setAuthed(false)}>
+              <button className="button secondary" onClick={handleLogout}>
                 Log out
               </button>
             </div>
@@ -761,7 +766,6 @@ const AdminApp = () => {
     activeTab,
     addTestimonial,
     agents,
-    authed,
     blogs,
     bookingRequests,
     gallery.length,
@@ -774,45 +778,7 @@ const AdminApp = () => {
     stats,
   ]);
 
-  return (
-    <div className={styles.wrapper}>
-      {!authed ? (
-        <div className={styles.loginShell}>
-          <div className={styles.loginCard}>
-            <p className={styles.kicker}>Admin Portal</p>
-            <h2>Secure entry</h2>
-            <p className={styles.subhead}>Temporary demo login: username <strong>admin</strong> and password <strong>123</strong>.</p>
-            <div className={styles.loginForm}>
-              <label>
-                Username
-                <input
-                  className={styles.input}
-                  value={credentials.username}
-                  onChange={(e) => setCredentials((c) => ({ ...c, username: e.target.value }))}
-                />
-              </label>
-              <label>
-                Password
-                <input
-                  type="password"
-                  className={styles.input}
-                  value={credentials.password}
-                  onChange={(e) => setCredentials((c) => ({ ...c, password: e.target.value }))}
-                />
-              </label>
-              {loginError && <p className={styles.error}>{loginError}</p>}
-              <button className="button" onClick={handleLogin}>
-                Login
-              </button>
-            </div>
-            <p className={styles.muted}>Swap in real auth when backend wiring is ready.</p>
-          </div>
-        </div>
-      ) : (
-        authenticatedView
-      )}
-    </div>
-  );
+  return <div className={styles.wrapper}>{authenticatedView}</div>;
 };
 
 export default AdminApp;
