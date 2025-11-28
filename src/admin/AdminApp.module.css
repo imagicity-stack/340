@@ -1,10 +1,10 @@
 .wrapper {
   min-height: 100vh;
-  background: radial-gradient(circle at 10% 20%, rgba(78, 205, 196, 0.15), transparent 25%),
-    radial-gradient(circle at 80% 10%, rgba(0, 212, 255, 0.12), transparent 22%),
-    #051426;
-  color: #f4fbff;
-  padding: 2.5rem 0 4rem;
+  background: radial-gradient(circle at 10% 20%, rgba(0, 0, 0, 0.04), transparent 28%),
+    radial-gradient(circle at 80% 10%, rgba(0, 0, 0, 0.03), transparent 24%),
+    #f6f7fb;
+  color: #0f172a;
+  padding: 3rem 0 4.5rem;
 }
 
 .portal {
@@ -16,27 +16,27 @@
 }
 
 .hero {
-  background: linear-gradient(120deg, rgba(78, 205, 196, 0.18), rgba(20, 51, 87, 0.95));
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: linear-gradient(120deg, #ffffff, #f3f5f9);
+  border: 1px solid rgba(15, 23, 42, 0.08);
   border-radius: 20px;
-  padding: 1.75rem;
+  padding: 2rem;
   display: grid;
-  gap: 1.25rem;
+  gap: 1.5rem;
   grid-template-columns: 1.3fr 1fr;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
 }
 
 .heroCard {
-  background: rgba(5, 20, 38, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #f9fafb;
+  border: 1px solid rgba(15, 23, 42, 0.06);
   border-radius: 14px;
-  padding: 1rem;
+  padding: 1.1rem;
 }
 
 .heroLabel {
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #91f0ff;
+  color: #0f172a;
   margin: 0 0 0.5rem 0;
   font-weight: 700;
 }
@@ -44,24 +44,24 @@
 .kicker {
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: #91f0ff;
+  color: #111827;
   margin: 0 0 0.35rem 0;
   font-weight: 700;
 }
 
 .subhead {
-  color: #c4d5e6;
-  margin-top: 0.3rem;
+  color: #334155;
+  margin-top: 0.4rem;
 }
 
 .notice {
-  color: #b8ffd9;
-  background: rgba(78, 205, 196, 0.08);
-  border: 1px solid rgba(78, 205, 196, 0.4);
-  padding: 0.65rem 0.75rem;
+  color: #0f172a;
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  padding: 0.7rem 0.9rem;
   border-radius: 12px;
   display: inline-block;
-  margin-top: 0.6rem;
+  margin-top: 0.75rem;
 }
 
 .heroActions {
@@ -77,15 +77,15 @@
 }
 
 .statCard {
-  background: rgba(78, 205, 196, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
   border-radius: 12px;
-  padding: 0.9rem;
+  padding: 1rem;
 }
 
 .statLabel {
   margin: 0;
-  color: #b7c8da;
+  color: #475569;
   font-size: 0.9rem;
 }
 
@@ -97,37 +97,38 @@
 
 .nav {
   display: flex;
-  gap: 0.75rem;
+  gap: 0.9rem;
   flex-wrap: wrap;
 }
 
 .nav button {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #eaf4ff;
-  padding: 0.6rem 0.95rem;
-  border-radius: 10px;
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  color: #0f172a;
+  padding: 0.7rem 1rem;
+  border-radius: 12px;
   font-weight: 700;
   text-transform: capitalize;
   transition: all 0.2s ease;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
 }
 
 .nav button:hover {
-  border-color: #4ecdc4;
+  border-color: #0f172a;
 }
 
 .nav button.active {
-  background: linear-gradient(120deg, #4ecdc4, #3aa2c4);
-  color: #051426;
-  box-shadow: 0 10px 30px rgba(78, 205, 196, 0.35);
+  background: #0f172a;
+  color: #ffffff;
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.18);
 }
 
 .section {
-  background: rgba(10, 28, 50, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
   border-radius: 18px;
-  padding: 1.25rem;
-  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.25);
+  padding: 1.5rem;
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.08);
 }
 
 .sectionHead {
@@ -147,11 +148,11 @@
 }
 
 .pill {
-  background: rgba(78, 205, 196, 0.16);
-  color: #a8ffee;
-  padding: 0.35rem 0.85rem;
+  background: #0f172a;
+  color: #ffffff;
+  padding: 0.4rem 0.95rem;
   border-radius: 999px;
-  border: 1px solid rgba(78, 205, 196, 0.6);
+  border: 1px solid #0f172a;
   font-weight: 700;
 }
 
@@ -169,12 +170,12 @@
 }
 
 .card {
-  background: rgba(6, 20, 34, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #f9fafb;
+  border: 1px solid rgba(15, 23, 42, 0.06);
   border-radius: 16px;
-  padding: 1rem;
-  color: #f5fbff;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+  padding: 1.1rem;
+  color: #0f172a;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
 }
 
 .card h3 {
@@ -182,14 +183,14 @@
 }
 
 .muted {
-  color: #b7c8da;
-  margin: 0.25rem 0 0;
+  color: #475569;
+  margin: 0.35rem 0 0;
 }
 
 .formGrid {
   display: grid;
-  gap: 0.65rem;
-  margin: 1rem 0;
+  gap: 0.9rem;
+  margin: 1.2rem 0;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
@@ -197,11 +198,11 @@
 .formGrid textarea,
 .formGrid select {
   width: 100%;
-  padding: 0.7rem 0.85rem;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.04);
-  color: #e6f4ff;
+  padding: 0.8rem 0.95rem;
+  border-radius: 12px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: #ffffff;
+  color: #0f172a;
 }
 
 .formGrid textarea {
@@ -215,16 +216,16 @@
 .subdivisionGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 0.75rem;
-  margin-top: 1rem;
+  gap: 0.9rem;
+  margin-top: 1.1rem;
 }
 
 .subdivisionCard {
   text-align: left;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #f4fbff;
-  padding: 0.8rem;
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  color: #0f172a;
+  padding: 0.95rem;
   border-radius: 12px;
   cursor: pointer;
   width: 100%;
@@ -232,13 +233,13 @@
 }
 
 .subdivisionCard:hover {
-  border-color: rgba(78, 205, 196, 0.6);
+  border-color: #0f172a;
   transform: translateY(-1px);
 }
 
 .subdivisionActive {
-  border-color: #4ecdc4;
-  box-shadow: 0 12px 24px rgba(78, 205, 196, 0.22);
+  border-color: #0f172a;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.12);
 }
 
 .subdivisionTitle {
@@ -250,14 +251,14 @@
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
-  margin-top: 0.75rem;
+  margin-top: 0.9rem;
 }
 
 .amenitiesGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 0.5rem 1rem;
-  margin-top: 0.5rem;
+  gap: 0.75rem 1.1rem;
+  margin-top: 0.65rem;
 }
 
 .checkboxRow {
@@ -285,10 +286,10 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 0.75rem;
+  padding: 0.9rem;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: #f9fafb;
+  border: 1px solid rgba(15, 23, 42, 0.06);
 }
 
 .itemTitle {
@@ -306,10 +307,10 @@
   display: inline-block;
   padding: 0.35rem 0.6rem;
   border-radius: 8px;
-  background: rgba(145, 240, 255, 0.12);
-  color: #9ed8ff;
+  background: #0f172a;
+  color: #ffffff;
   margin-right: 0.5rem;
-  border: 1px solid rgba(145, 240, 255, 0.28);
+  border: 1px solid #0f172a;
 }
 
 .loginShell {
@@ -320,30 +321,30 @@
 
 .loginCard {
   width: min(460px, 92vw);
-  background: linear-gradient(145deg, rgba(78, 205, 196, 0.16), rgba(5, 20, 38, 0.95));
+  background: linear-gradient(145deg, #ffffff, #f3f5f9);
   border-radius: 18px;
-  padding: 1.5rem;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 1.75rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(15, 23, 42, 0.08);
 }
 
 .loginForm {
   display: grid;
-  gap: 0.75rem;
-  margin: 1rem 0;
+  gap: 0.9rem;
+  margin: 1.2rem 0;
 }
 
 .input {
-  padding: 0.75rem 0.85rem;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 0.85rem 0.95rem;
+  border-radius: 12px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
   font-size: 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  color: #f4fbff;
+  background: #ffffff;
+  color: #0f172a;
 }
 
 .error {
-  color: #ffcdd2;
+  color: #b91c1c;
   margin: 0;
 }
 
