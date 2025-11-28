@@ -3,7 +3,8 @@
   background: url('https://images.unsplash.com/photo-1521550830594-2afed882baee?auto=format&fit=crop&w=1800&q=80')
       center/cover no-repeat;
   color: white;
-  padding: 8rem 0;
+  min-height: 100vh;
+  padding: clamp(4rem, 8vh, 7rem) 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -40,6 +41,17 @@
 .heroSubtitle {
   margin: 0 0 0.5rem;
   font-size: 1.2rem;
+}
+
+.heroCta {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 0.6rem 1.05rem;
+  backdrop-filter: blur(4px);
+}
+
+.heroCta:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .storySection {
@@ -89,6 +101,36 @@
 
 .teamCard {
   text-align: center;
+}
+
+.teamIntroSection {
+  background: #eef5f6;
+}
+
+.teamIntroCard {
+  background: white;
+  border-radius: 16px;
+  box-shadow: var(--card-shadow);
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  display: grid;
+  gap: 0.85rem;
+  line-height: 1.7;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.teamIntroCard h2 {
+  margin: 0 0 0.25rem;
+}
+
+.teamIntroCard h3 {
+  margin: 0.5rem 0 0.1rem;
+  color: #0b4f6c;
+}
+
+.knowMoreButton {
+  justify-self: start;
+  margin-top: 0.5rem;
 }
 
 .galleryGrid img {

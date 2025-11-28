@@ -22,7 +22,7 @@ const Home = () => {
           <p className={styles.heroEyebrow}>340 Real Estate St. John</p>
           <h1 className={styles.heroTitle}>Discover Your Paradise</h1>
           <p className={styles.heroSubtitle}>Luxury Real Estate in St. John, USVI</p>
-          <a className="button" href="/portfolio">
+          <a className={`button ${styles.heroCta}`} href="/portfolio">
             Search MLS Properties
           </a>
         </div>
@@ -53,6 +53,34 @@ const Home = () => {
                 everyone.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className={`section ${styles.teamIntroSection}`}>
+        <div className="container">
+          <div className={styles.teamIntroCard}>
+            <h2>Meet the 340 Real Estate St. John Team</h2>
+            <p>
+              Our experienced team of brokers and sales agents is dedicated to helping you find the perfect
+              property—whether it's a cozy condo, sprawling land, luxurious home, or commercial space. We work with all
+              listings on the St. John MLS and offer Accredited Buyer Representative services to guide you every step of
+              the way.
+            </p>
+            <p>
+              Our website features a user-friendly, fully searchable database of all MLS listings, plus a robust archive
+              of over 5,000 real estate sales dating back to 2009. You can explore historical trends by area, property
+              type, or time frame—empowering you with the insights you need to make a smart investment.
+            </p>
+            <h3>Ready to Make the Move?</h3>
+            <p>
+              Whether you're planning a weeklong getaway or a permanent relocation, we're here to help. With over 70
+              years of combined experience in St. John real estate, the 340 Real Estate team is ready to turn your island
+              dream into reality.
+            </p>
+            <a className={`button ${styles.knowMoreButton}`} href="/340team">
+              Know More
+            </a>
           </div>
         </div>
       </section>
