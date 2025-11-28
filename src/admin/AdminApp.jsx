@@ -394,7 +394,10 @@ const AdminApp = () => {
                   </label>
                   <label>
                     Type*
-                    <select value={portfolioForm.type} onChange={(e) => setPortfolioForm((f) => ({ ...f, type: e.target.value }))}>
+                    <select
+                      value={portfolioForm.type}
+                      onChange={(e) => setPortfolioForm((f) => ({ ...f, type: e.target.value }))}
+                    >
                       <option>Villa</option>
                       <option>House</option>
                       <option>Condo</option>
