@@ -215,6 +215,11 @@
   display: grid;
   gap: 0.4rem;
   color: #0f1f2d;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(11, 79, 108, 0.1);
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+  box-shadow: 0 10px 25px rgba(15, 61, 86, 0.08);
 }
 
 .pillarsSection {
