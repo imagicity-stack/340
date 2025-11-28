@@ -8,6 +8,11 @@
   padding: 3.5rem 0;
 }
 
+.heroContent {
+  text-align: center;
+  max-width: 880px;
+}
+
 .kicker {
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -168,6 +173,103 @@
   background: #1cb5b2;
   border-color: #1cb5b2;
   transform: scale(1.05);
+}
+
+.condoSection {
+  padding: 3rem 0 4rem;
+}
+
+.condoHeader {
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+
+.condoGrid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.condoCard {
+  background: #fff;
+  border-radius: 14px;
+  padding: 1.25rem 1.4rem;
+  box-shadow: 0 12px 30px rgba(15, 61, 86, 0.08);
+  border: 1px solid #e4eef3;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.condoCard h3 {
+  color: #0f3d56;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.condoCard p {
+  margin: 0;
+  color: #17425b;
+  line-height: 1.6;
+}
+
+.mapSection {
+  padding: 1rem 0 4.5rem;
+}
+
+.mapHeader {
+  text-align: center;
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mapTabs {
+  display: inline-flex;
+  background: #e7f3f7;
+  padding: 0.35rem;
+  border-radius: 999px;
+  gap: 0.35rem;
+  align-self: center;
+  border: 1px solid #d1e6ed;
+}
+
+.mapTab {
+  border: none;
+  background: transparent;
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  cursor: pointer;
+  color: #0f3d56;
+  font-weight: 700;
+  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mapTabActive {
+  background: #fff;
+  color: #0f2c3f;
+  box-shadow: 0 8px 20px rgba(15, 61, 86, 0.12);
+}
+
+.mapPanel {
+  display: none;
+}
+
+.mapPanelActive {
+  display: block;
+  background: #fff;
+  border-radius: 16px;
+  padding: 0.65rem;
+  box-shadow: 0 14px 32px rgba(15, 61, 86, 0.12);
+  border: 1px solid #dce8ed;
+}
+
+.mapPanel img {
+  width: 100%;
+  display: block;
+  border-radius: 12px;
+  box-shadow: 0 12px 26px rgba(15, 61, 86, 0.15);
 }
 
 @media (max-width: 720px) {

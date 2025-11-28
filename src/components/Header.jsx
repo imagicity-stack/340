@@ -34,7 +34,7 @@ const Header = () => {
         </nav>
 
         <Link to="/" className={styles.logo} aria-label="340 Real Estate home">
-          340 Real Estate
+          <img src="/logo/logo.png" alt="340 Real Estate" className={styles.logoImage} />
         </Link>
 
         <nav className={`${styles.navLinks} ${styles.navRight}`} aria-label="Primary right">
