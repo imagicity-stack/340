@@ -2,8 +2,9 @@
 
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { signOut } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
 import styles from './AdminApp.module.css';
-import { getAuthHelpers } from '../../lib/firebase.js';
 import { useSiteData } from '../state/SiteDataContext.jsx';
 
 const tabs = [
@@ -85,10 +86,7 @@ const AdminApp = () => {
 
   const handleLogout = async () => {
     try {
-      const { auth, signOut } = await getAuthHelpers();
-      if (auth && signOut) {
-        await signOut(auth);
-      }
+      await signOut(auth);
     } catch (error) {
       console.error('Unable to sign out', error);
     } finally {

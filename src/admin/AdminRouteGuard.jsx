@@ -2,7 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAuthHelpers, getFirestoreHelpers } from '../../lib/firebase.js';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
+import { auth, db } from '@/lib/firebase';
 
 const AdminRouteGuard = ({ children }) => {
   const navigate = useNavigate();
@@ -14,13 +16,6 @@ const AdminRouteGuard = ({ children }) => {
 
     const runAuthCheck = async () => {
       try {
-        const { auth, onAuthStateChanged, signOut } = await getAuthHelpers();
-        const { db, doc, getDoc } = await getFirestoreHelpers();
-
-        if (!auth || !onAuthStateChanged || !db || !doc || !getDoc) {
-          throw new Error('Firebase not available in this environment.');
-        }
-
         unsubscribe = onAuthStateChanged(auth, async (user) => {
           if (!isMounted) return;
 
