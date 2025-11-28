@@ -3,7 +3,8 @@
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
+import { collection, addDoc } from 'firebase/firestore';
+import { auth, db } from '@/lib/firebase';
 import styles from './AdminApp.module.css';
 import { useSiteData } from '../state/SiteDataContext.jsx';
 import { collection, addDoc } from 'firebase/firestore';
@@ -228,7 +229,7 @@ const AdminApp = () => {
   };
 
   const addRental = async () => {
-  if (!rentalForm.propertyName || !rentalForm.nightlyRate) return;
+    if (!rentalForm.propertyName || !rentalForm.nightlyRate) return;
 
   try {
     const amenityLabels = amenityOptions.reduce(
@@ -237,8 +238,6 @@ const AdminApp = () => {
     );
 
     const payload = {
-      // keep ID for local UI, but also store Firestore ID later
-      id: Date.now(),
       name: rentalForm.propertyName,
       type: rentalForm.propertyType,
       slug: rentalForm.slug || slugify(rentalForm.propertyName),
@@ -285,22 +284,16 @@ const AdminApp = () => {
       createdAt: Date.now(),
     };
 
-    // 🔥 1) Write to Firestore
-    const docRef = await addDoc(collection(db, 'rentals'), payload);
-
-    // 🔥 2) Update local state with Firestore ID for UI
-    setRentals((items) => [...items, { ...payload, id: docRef.id }]);
-
-    // 🔥 3) Reset form + notice
-    setRentalForm(getInitialRentalForm());
-    setMiniNotice('Rental property saved to Firestore and added to front-end inventory.');
-    setActiveTab('rentals');
-  } catch (error) {
-    console.error('Failed to save rental property', error);
-    setMiniNotice('Something went wrong saving this rental. Check console.');
-  }
-};
-
+    try {
+      const docRef = await addDoc(collection(db, 'rentals'), payload);
+      setRentals((items) => [...items, { ...payload, id: docRef.id }]);
+      setRentalForm(getInitialRentalForm());
+      setMiniNotice('Rental property added to front-end inventory.');
+      setActiveTab('rentals');
+    } catch (error) {
+      console.error('Unable to add rental property', error);
+    }
+  };
 
   const addTestimonial = () => {
     setTestimonials((items) => [
