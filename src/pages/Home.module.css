@@ -243,26 +243,3 @@
   height: 220px;
   object-fit: cover;
 }
-
-.footer {
-  background: #0c1b2a;
-  color: #e9f0f7;
-  padding: 2rem 0;
-}
-
-.footerGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1rem;
-}
-
-.adminLink {
-  display: inline-block;
-  margin-top: 0.5rem;
-  color: #9fc5df;
-  font-size: 0.9rem;
-}
-
-.adminLink:hover {
-  color: #ffffff;
-}
