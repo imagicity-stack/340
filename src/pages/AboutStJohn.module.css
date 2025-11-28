@@ -170,6 +170,44 @@
   transform: scale(1.05);
 }
 
+.condoSection {
+  padding: 3rem 0 4rem;
+}
+
+.condoHeader {
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+
+.condoGrid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.condoCard {
+  background: #fff;
+  border-radius: 14px;
+  padding: 1.25rem 1.4rem;
+  box-shadow: 0 12px 30px rgba(15, 61, 86, 0.08);
+  border: 1px solid #e4eef3;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.condoCard h3 {
+  color: #0f3d56;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.condoCard p {
+  margin: 0;
+  color: #17425b;
+  line-height: 1.6;
+}
+
 @media (max-width: 720px) {
   .carousel {
     grid-template-columns: 1fr;
