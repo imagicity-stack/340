@@ -2,7 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAuthHelpers, getFirestoreHelpers } from '../../lib/firebase.js';
+import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
+import { auth, db } from '@/lib/firebase';
 import styles from './AdminApp.module.css';
 
 const AdminLogin = () => {
@@ -12,8 +14,7 @@ const AdminLogin = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const validateAdmin = async (user) => {
-    const { db, doc, getDoc } = await getFirestoreHelpers();
-    if (!db || !doc || !getDoc || !user?.uid) return false;
+    if (!user?.uid) return false;
     const adminDoc = await getDoc(doc(db, 'admins', user.uid));
     return adminDoc.exists();
   };
@@ -24,12 +25,6 @@ const AdminLogin = () => {
 
     const subscribe = async () => {
       try {
-        const { auth, onAuthStateChanged, signOut } = await getAuthHelpers();
-        const { db, doc, getDoc } = await getFirestoreHelpers();
-        if (!auth || !onAuthStateChanged || !db || !doc || !getDoc) {
-          return;
-        }
-
         unsubscribe = onAuthStateChanged(auth, async (user) => {
           if (!user || !active) return;
 
@@ -64,11 +59,6 @@ const AdminLogin = () => {
     setIsSubmitting(true);
 
     try {
-      const { auth, signInWithEmailAndPassword, signOut } = await getAuthHelpers();
-      if (!auth || !signInWithEmailAndPassword || !signOut) {
-        throw new Error('Firebase Auth unavailable');
-      }
-
       const credential = await signInWithEmailAndPassword(auth, form.email, form.password);
       const isAdmin = await validateAdmin(credential.user);
 
