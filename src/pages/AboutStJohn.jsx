@@ -14,6 +14,7 @@ const AboutStJohn = () => {
 
   const [active, setActive] = useState(0);
   const [placeholderShown, setPlaceholderShown] = useState({});
+  const [activeMap, setActiveMap] = useState(mapOptions[0].key);
 
   const condoAreas = [
     {
@@ -84,6 +85,21 @@ const AboutStJohn = () => {
     {
       name: 'Westin Vacation Club',
       description: 'Studio to 3BR timeshares across from the Westin Resort. Access to pools and hotel facilities.',
+    },
+  ];
+
+  const mapOptions = [
+    {
+      key: 'illustrated',
+      label: 'Illustrated Map',
+      src: '/stjhon-gallery/340map1.jpg',
+      alt: 'Illustrated map of St. John highlighting key areas and bays.',
+    },
+    {
+      key: 'propertyZones',
+      label: 'Property Zones Map',
+      src: '/stjhon-gallery/340map2.jpg',
+      alt: 'St. John property zones map showing different real estate areas.',
     },
   ];
 
@@ -231,6 +247,36 @@ const AboutStJohn = () => {
                 <p>{area.description}</p>
               </article>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className={`section ${styles.mapSection}`}>
+        <div className="container">
+          <div className={styles.mapHeader}>
+            <h2>St. John Property &amp; Area Maps</h2>
+            <p>View a quick illustrated overview or explore detailed property zones across the island.</p>
+          </div>
+
+          <div className={styles.mapControls} role="tablist" aria-label="Select St. John map view">
+            {mapOptions.map((option) => (
+              <button
+                key={option.key}
+                className={`${styles.mapButton} ${activeMap === option.key ? styles.mapButtonActive : ''}`}
+                onClick={() => setActiveMap(option.key)}
+                role="tab"
+                aria-selected={activeMap === option.key}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+
+          <div className={styles.mapDisplay}>
+            <img
+              src={mapOptions.find((option) => option.key === activeMap)?.src}
+              alt={mapOptions.find((option) => option.key === activeMap)?.alt}
+            />
           </div>
         </div>
       </section>
