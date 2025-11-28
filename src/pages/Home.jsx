@@ -1,90 +1,34 @@
 import React, { useMemo } from 'react';
 import styles from './Home.module.css';
 import { useSiteData } from '../state/SiteDataContext.jsx';
+import teamMembers from '../data/teamMembers.js';
 
-const teamMembers = [
-  {
-    name: 'Tammy Donnelly',
-    role: 'Broker / Owner / ABR',
-    bio: 'Tammy has lived on St. John since 1980 and became the owner of 340 Real Estate in 2013.',
-    phone: '+13405551230',
-    email: 'tammy@340realestate.com',
-    image:
-      'https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=300&q=80',
-  },
-  {
-    name: 'Jennifer Doran',
-    role: 'Sales Associate',
-    bio: 'Jennifer brings hospitality expertise and a knack for guiding first-time buyers.',
-    phone: '+13405551231',
-    email: 'jennifer@340realestate.com',
-    image:
-      'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=300&q=80',
-  },
-  {
-    name: 'Tina Peitto',
-    role: 'Sales Associate',
-    bio: 'Tina’s detail-oriented approach comes from her prior tenure as Director of Finance.',
-    phone: '+13405551232',
-    email: 'tina@340realestate.com',
-    image:
-      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=300&q=80',
-  },
-  {
-    name: 'Rosanne Ramos Lloyd',
-    role: 'Sales Associate',
-    bio: 'Rosanne has worked in marketing and sales with St. John Insurance Company.',
-    phone: '+13405551233',
-    email: 'rosanne@340realestate.com',
-    image:
-      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=300&q=80&sat=-50',
-  },
-  {
-    name: 'Jenn Manes',
-    role: 'Sales Associate',
-    bio: 'Jenn made her move to St. John after discovering the island and now blogs about local life.',
-    phone: '+13405551234',
-    email: 'jenn@340realestate.com',
-    image:
-      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=300&q=80&sat=-30',
-  },
-  {
-    name: 'Adonis Morton',
-    role: 'Sales Associate',
-    bio: 'Adonis arrived on St. John in 2017 and quickly became a trusted market expert.',
-    phone: '+13405551235',
-    email: 'adonis@340realestate.com',
-    image:
-      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=300&q=80&sat=20',
-  },
-  {
-    name: 'Mary Moroney',
-    role: 'Sales Associate',
-    bio: 'Mary balances her real estate career with a passion for community volunteering.',
-    phone: '+13405551236',
-    email: 'mary@340realestate.com',
-    image:
-      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=300&q=80&sat=-10',
-  },
-  {
-    name: 'John McCann',
-    role: 'Broker Associate',
-    bio: 'John moved to Hawaii, then back to St. John, and shares deep insights on island living.',
-    phone: '+13405551237',
-    email: 'john@340realestate.com',
-    image:
-      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=300&q=80&sat=-45',
-  },
-  {
-    name: 'Olivia Carter',
-    role: 'Client Care Specialist',
-    bio: 'Olivia coordinates showings, answers inquiries, and keeps buyers updated at every step.',
-    phone: '+13405551238',
-    email: 'olivia@340realestate.com',
-    image:
-      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=300&q=80&sat=30',
-  },
-];
+const PhoneIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path
+      d="M6.54 5.22c.34-.76 1.19-1.1 1.96-.83l1.37.48a1.5 1.5 0 0 1 .95 1.42c-.02.9-.17 1.77-.44 2.6a1 1 0 0 1-.97.69H7.9c.7 2.04 2.36 3.7 4.4 4.4v-1.51a1 1 0 0 1 .69-.97c.83-.27 1.7-.42 2.6-.44a1.5 1.5 0 0 1 1.42.95l.48 1.37c.28.77-.07 1.62-.83 1.96l-1.35.62a3 3 0 0 1-2.58-.03c-2.45-1.13-4.42-3.1-5.55-5.55a3 3 0 0 1-.03-2.58l.62-1.35Z"
+      fill="currentColor"
+    />
+  </svg>
+);
+
+const MailIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path
+      d="M4.5 6.75c0-.69.56-1.25 1.25-1.25h12.5c.69 0 1.25.56 1.25 1.25v10.5c0 .69-.56 1.25-1.25 1.25H5.75A1.25 1.25 0 0 1 4.5 17.25V6.75Zm1.7.75 5.31 3.54a.75.75 0 0 0 .78 0l5.31-3.54H6.2Z"
+      fill="currentColor"
+    />
+  </svg>
+);
+
+const MessageIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path
+      d="M6 5.5h12a1.5 1.5 0 0 1 1.5 1.5v7a1.5 1.5 0 0 1-1.5 1.5h-3.9l-2.45 2.45a.75.75 0 0 1-1.28-.53V15.5H6A1.5 1.5 0 0 1 4.5 14V7A1.5 1.5 0 0 1 6 5.5Z"
+      fill="currentColor"
+    />
+  </svg>
+);
 
 const Home = () => {
   const { properties, gallery } = useSiteData();
@@ -156,7 +100,7 @@ const Home = () => {
               years of combined experience in St. John real estate, the 340 Real Estate team is ready to turn your island
               dream into reality.
             </p>
-            <a className={`button ${styles.knowMoreButton}`} href="/340team">
+            <a className={`button ${styles.knowMoreButton}`} href="/team">
               Know More
             </a>
           </div>
@@ -186,17 +130,17 @@ const Home = () => {
                 </div>
                 <div className={styles.contactRow}>
                   <a href={`tel:${member.phone}`} aria-label={`Call ${member.name}`} className={styles.contactIcon}>
-                    <span aria-hidden="true">📞</span>
+                    <PhoneIcon />
                   </a>
                   <a
                     href={`mailto:${member.email}`}
                     aria-label={`Email ${member.name}`}
                     className={styles.contactIcon}
                   >
-                    <span aria-hidden="true">✉️</span>
+                    <MailIcon />
                   </a>
                   <a href="/contact" aria-label={`Message ${member.name}`} className={styles.contactIcon}>
-                    <span aria-hidden="true">💬</span>
+                    <MessageIcon />
                   </a>
                 </div>
               </article>
@@ -266,4 +210,5 @@ const Home = () => {
   );
 };
 
+export { PhoneIcon, MailIcon, MessageIcon };
 export default Home;
