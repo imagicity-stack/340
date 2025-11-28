@@ -2,12 +2,6 @@ import React, { useMemo } from 'react';
 import styles from './Home.module.css';
 import { useSiteData } from '../state/SiteDataContext.jsx';
 
-const heroSlides = [
-  'Oceanfront estates with world-class amenities',
-  'Boutique cottages with authentic island charm',
-  'Curated rentals for every celebration',
-];
-
 const team = [
   { name: 'Isla Thompson', role: 'Broker / Owner' },
   { name: 'Kai Rodriguez', role: 'Luxury Specialist' },
@@ -23,35 +17,70 @@ const Home = () => {
   return (
     <main>
       <section className={styles.hero}>
-        <div className={styles.heroContent}>
-          <div>
-            <p className="badge" style={{ background: 'rgba(255,255,255,0.2)' }}>
-              Island Luxury, Modern Service
-            </p>
-            <h1 style={{ fontSize: '2.75rem', margin: '0.5rem 0' }}>
-              Boutique real estate experiences on St. John
-            </h1>
-            <p style={{ maxWidth: '600px', lineHeight: 1.6 }}>
-              Discover villas, cottages, and land opportunities curated by a team that lives and breathes St. John.
-            </p>
-            <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem', flexWrap: 'wrap' }}>
-              <a className="button" href="/portfolio">
-                Browse Properties
-              </a>
-              <a className="button outline" href="/contact">
-                Talk with a Broker
-              </a>
+        <div className={styles.heroOverlay} />
+        <div className={styles.heroInner}>
+          <p className={styles.heroEyebrow}>340 Real Estate St. John</p>
+          <h1 className={styles.heroTitle}>Discover Your Paradise</h1>
+          <p className={styles.heroSubtitle}>Luxury Real Estate in St. John, USVI</p>
+          <a className={`button ${styles.heroCta}`} href="/portfolio">
+            Search MLS Properties
+          </a>
+        </div>
+      </section>
+
+      <section className={`section ${styles.storySection}`}>
+        <div className="container">
+          <div className={styles.storyGrid}>
+            <div className={styles.storyImage} aria-hidden="true" />
+            <div className={styles.storyContent}>
+              <h2>Discover Your Slice of Paradise with 340 Real Estate St. John</h2>
+              <h3>Residential Homes, Land &amp; Condos for Every Budget!</h3>
+              <p>
+                Have you ever found yourself daydreaming about staying forever after the most relaxing vacation of
+                your life—sunbathing on a tropical beach or taking a once-in-a-lifetime sabbatical in a remote island
+                paradise? That dream of owning a piece of "the rock" may be closer than you think.
+              </p>
+              <h4>Why St. John?</h4>
+              <p>
+                St. John is a gem rich in history, culture, and natural beauty. Home to the renowned Virgin Islands
+                National Park—established in 1956 through the efforts of Laurance Rockefeller—the park now encompasses
+                7,200 acres of land and an additional 5,600 acres of underwater beauty. This accounts for roughly 80% of
+                the island remaining pristine and undeveloped, including world-famous white-sand beaches.
+              </p>
+              <p>
+                This small but captivating island draws visitors from all over the world. Whether you're into hiking,
+                snorkeling, diving, surfing, or just soaking up the Caribbean sun, St. John offers something for
+                everyone.
+              </p>
             </div>
           </div>
-          <div className={styles.heroCard} aria-label="Hero carousel copy">
-            <div className={styles.carouselTrack}>
-              {heroSlides.map((text) => (
-                <div key={text} className="card" style={{ minWidth: '220px', background: 'rgba(255,255,255,0.9)' }}>
-                  <h3 style={{ marginTop: 0 }}>{text}</h3>
-                  <p style={{ margin: 0 }}>Handpicked highlights updated weekly.</p>
-                </div>
-              ))}
-            </div>
+        </div>
+      </section>
+
+      <section className={`section ${styles.teamIntroSection}`}>
+        <div className="container">
+          <div className={styles.teamIntroCard}>
+            <h2>Meet the 340 Real Estate St. John Team</h2>
+            <p>
+              Our experienced team of brokers and sales agents is dedicated to helping you find the perfect
+              property—whether it's a cozy condo, sprawling land, luxurious home, or commercial space. We work with all
+              listings on the St. John MLS and offer Accredited Buyer Representative services to guide you every step of
+              the way.
+            </p>
+            <p>
+              Our website features a user-friendly, fully searchable database of all MLS listings, plus a robust archive
+              of over 5,000 real estate sales dating back to 2009. You can explore historical trends by area, property
+              type, or time frame—empowering you with the insights you need to make a smart investment.
+            </p>
+            <h3>Ready to Make the Move?</h3>
+            <p>
+              Whether you're planning a weeklong getaway or a permanent relocation, we're here to help. With over 70
+              years of combined experience in St. John real estate, the 340 Real Estate team is ready to turn your island
+              dream into reality.
+            </p>
+            <a className={`button ${styles.knowMoreButton}`} href="/340team">
+              Know More
+            </a>
           </div>
         </div>
       </section>
@@ -125,6 +154,9 @@ const Home = () => {
               <br />
               <a href="mailto:hello@340realestate.com">hello@340realestate.com</a>
             </p>
+            <a className={styles.adminLink} href="/admin">
+              Admin Login
+            </a>
           </div>
         </div>
       </footer>
