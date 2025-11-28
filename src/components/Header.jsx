@@ -34,6 +34,9 @@ const Header = () => {
           <NavLink to="/testimonials" className={navLinkClass}>
             Testimonials
           </NavLink>
+          <NavLink to="/team" className={navLinkClass}>
+            Team
+          </NavLink>
           <NavLink to="/about-st-john" className={navLinkClass}>
             About Us
           </NavLink>
@@ -59,6 +62,9 @@ const Header = () => {
           </NavLink>
           <NavLink to="/testimonials" className={styles.navLink} onClick={() => setOpen(false)}>
             Testimonials
+          </NavLink>
+          <NavLink to="/team" className={styles.navLink} onClick={() => setOpen(false)}>
+            Team
           </NavLink>
           <NavLink to="/about-st-john" className={styles.navLink} onClick={() => setOpen(false)}>
             About Us
